@@ -130,3 +130,4 @@ pnpm-lock.yaml
 
 
 .ruff_cache/
+hello.py
