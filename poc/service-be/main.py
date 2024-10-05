@@ -1,7 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from .structlogger import logger
-from contextlib import asynccontextmanager
 from .controllers import categorize_medical_condition
 from pydantic import BaseModel
 
