@@ -131,3 +131,5 @@ pnpm-lock.yaml
 
 .ruff_cache/
 hello.py
+test.py
+.cursorrules

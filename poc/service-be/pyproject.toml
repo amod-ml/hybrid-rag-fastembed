@@ -1,7 +1,7 @@
 [project]
 name = "service"
 version = "0.1.0"
-description = "Add your description here"
+description = "AI based Healtcare question categorization"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -10,4 +10,9 @@ dependencies = [
     "asyncio>=3.4.3",
     "fastapi[standard]",
     "openai",
+    "pandas>=2.2.3",
+    "python-dotenv>=1.0.1",
+    "ruff>=0.6.9",
+    "structlog>=0.8.0",
+    "tool",
 ]
