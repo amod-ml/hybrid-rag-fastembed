@@ -1,8 +1,8 @@
-from .services import get_openai_client
+from .services import get_openai_client, get_mongodb_client
 from .structlogger import logger
 from fastapi import HTTPException
 from pydantic import BaseModel, ValidationError
-from typing import List
+from typing import List, Dict
 
 
 class MedicalConditionCategorization(BaseModel):
@@ -25,7 +25,7 @@ async def categorize_medical_condition(question: str) -> MedicalConditionCategor
 
     A question can belong to one or multiple categories. If the categorization is ambiguous 
     and cannot be put into any of the specific categories, categorize it as 'Other'. 
-    This should be done as a last resort.
+    This should be done as a last resort. The category 'Other' strictly cannot be accompagnied with any other categories.
 
     Respond with a JSON object containing a 'categories' key with an array of category names.
     """
@@ -85,3 +85,22 @@ async def categorize_medical_condition(question: str) -> MedicalConditionCategor
         raise HTTPException(
             status_code=500, detail=f"Error categorizing medical condition: {str(e)}"
         )
+
+
+async def save_categorized_question(question_data: Dict):
+    try:
+        client = await get_mongodb_client()
+        db = client.get_database("medical_questions")
+        collection = db.get_collection("categorized_questions")
+        
+        result = await collection.insert_one(question_data)
+        
+        if result.inserted_id:
+            logger.info("Question saved successfully", uuid=question_data["uuid"])
+            return True
+        else:
+            logger.error("Failed to save question", uuid=question_data["uuid"])
+            raise HTTPException(status_code=500, detail="Failed to save question")
+    except Exception as e:
+        logger.error("Error saving categorized question", error=str(e))
+        raise HTTPException(status_code=500, detail=f"Error saving categorized question: {str(e)}")
