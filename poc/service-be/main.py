@@ -1,8 +1,18 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from .structlogger import logger
-from .controllers import categorize_medical_condition, save_categorized_question
-from pydantic import BaseModel, Field
+from .controllers import (
+    categorize_medical_condition,
+    save_categorized_question,
+    get_questions_by_category,
+)
+from .schemas import (
+    MedicalCategory,
+    QuestionInput,
+    MedicalConditionCategorization,
+    CategoryAndSaveResponse,
+    QuestionResponse,
+)
 from typing import List
 import uuid
 
@@ -22,19 +32,6 @@ app.add_middleware(
 @app.get("/status")
 async def status():
     return {"status": "ok"}
-
-
-class QuestionInput(BaseModel):
-    question: str
-
-
-class MedicalConditionCategorization(BaseModel):
-    categories: List[str]
-
-
-class CategoryAndSaveResponse(BaseModel):
-    message: str
-    uuid: str = Field(..., description="UUID of the saved question")
 
 
 @app.post("/categorize", response_model=MedicalConditionCategorization)
@@ -58,7 +55,7 @@ async def categorize_and_save_question(input_data: QuestionInput):
         question_data = {
             "uuid": question_uuid,
             "question": input_data.question,
-            "categories": categorization.categories,
+            "categories": [category.value for category in categorization.categories],
         }
 
         await save_categorized_question(question_data)
@@ -70,4 +67,20 @@ async def categorize_and_save_question(input_data: QuestionInput):
         raise e
     except Exception as e:
         logger.error("Unexpected error in categorize_and_save_question", error=str(e))
+        raise HTTPException(status_code=500, detail="An unexpected error occurred")
+
+
+@app.get("/questions", response_model=List[QuestionResponse])
+async def get_questions_for_category(
+    category: MedicalCategory = Query(
+        ..., description="Medical category to filter questions"
+    ),
+):
+    try:
+        questions = await get_questions_by_category(category.value)
+        return [QuestionResponse(**q) for q in questions]
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logger.error("Unexpected error in get_questions_for_category", error=str(e))
         raise HTTPException(status_code=500, detail="An unexpected error occurred")

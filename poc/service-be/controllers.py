@@ -1,12 +1,10 @@
 from .services import get_openai_client, get_mongodb_client
 from .structlogger import logger
 from fastapi import HTTPException
-from pydantic import BaseModel, ValidationError
+from pydantic import ValidationError
 from typing import List, Dict
+from .schemas import MedicalCategory, MedicalConditionCategorization
 
-
-class MedicalConditionCategorization(BaseModel):
-    categories: List[str]
 
 
 async def categorize_medical_condition(question: str) -> MedicalConditionCategorization:
@@ -25,7 +23,7 @@ async def categorize_medical_condition(question: str) -> MedicalConditionCategor
 
     A question can belong to one or multiple categories. If the categorization is ambiguous 
     and cannot be put into any of the specific categories, categorize it as 'Other'. 
-    This should be done as a last resort. The category 'Other' strictly cannot be accompagnied with any other categories.
+    This should be done as a last resort. The category 'Other' strictly cannot be accompanied by any other categories.
 
     Respond with a JSON object containing a 'categories' key with an array of category names.
     """
@@ -48,16 +46,7 @@ async def categorize_medical_condition(question: str) -> MedicalConditionCategor
                                 "type": "array",
                                 "items": {
                                     "type": "string",
-                                    "enum": [
-                                        "Cardiovascular",
-                                        "Dermatology",
-                                        "Neurology",
-                                        "Oncology",
-                                        "Pediatrics",
-                                        "Endocrinology",
-                                        "Pulmonology",
-                                        "Other",
-                                    ],
+                                    "enum": [cat.value for cat in MedicalCategory],
                                 },
                             }
                         },
@@ -104,3 +93,21 @@ async def save_categorized_question(question_data: Dict):
     except Exception as e:
         logger.error("Error saving categorized question", error=str(e))
         raise HTTPException(status_code=500, detail=f"Error saving categorized question: {str(e)}")
+
+
+async def get_questions_by_category(category: str) -> List[Dict]:
+    try:
+        client = await get_mongodb_client()
+        db = client.get_database("medical_questions")
+        collection = db.get_collection("categorized_questions")
+        
+        query = {"categories": category}
+        cursor = collection.find(query)
+        
+        questions = await cursor.to_list(length=None)
+        
+        logger.info(f"Retrieved {len(questions)} questions for category: {category}")
+        return questions
+    except Exception as e:
+        logger.error(f"Error retrieving questions for category {category}", error=str(e))
+        raise HTTPException(status_code=500, detail=f"Error retrieving questions: {str(e)}")
