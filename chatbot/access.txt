@@ -1,0 +1,11 @@
+AWS:
+heathapppoc@gmail.com
+Password (B64 enc): UHJvZmFuZUBQZWJibGVARnJlZXN0eWxlMUBTbm93aW5lc3NARGl2aWRlbmQ=
+
+
+MongoDb Atlas:
+healthapppoc
+91De827ZhUlqCb9T
+
+
+

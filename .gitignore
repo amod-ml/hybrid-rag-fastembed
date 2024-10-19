@@ -133,3 +133,5 @@ pnpm-lock.yaml
 hello.py
 test.py
 .cursorrules
+.rules.txt
+openai-reference.pdf
