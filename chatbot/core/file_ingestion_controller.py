@@ -88,9 +88,11 @@ async def semantic_chunking(content: str) -> List[str]:
                                         },
                                     },
                                     "required": ["summary", "tags"],
+                                    "additionalProperties": False,
                                 },
                             },
                             "required": ["text", "metadata"],
+                            "additionalProperties": False,
                         },
                     }
                 },
