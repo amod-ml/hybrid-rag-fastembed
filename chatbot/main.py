@@ -1,9 +1,10 @@
 import asyncio
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from utils.structlogger import logger
 from .router import router
 from .utils.session_manager import SessionManager
+from .core.file_ingestion_controller import process_file
 
 app = FastAPI()
 
@@ -31,3 +32,15 @@ async def startup_event():
 
 
 logger.info("Chatbot server started")
+
+
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    try:
+        content = await process_file(file)
+        return {"filename": file.filename, "content": content}
+    except ValueError as e:
+        raise HTTPException(status_code=402, detail=str(e))
+    except Exception as e:
+        logger.error(f"Error processing file: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error")

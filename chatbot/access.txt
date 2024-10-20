@@ -7,5 +7,15 @@ MongoDb Atlas:
 healthapppoc
 91De827ZhUlqCb9T
 
+Qdrant:
+O7yMCkEy3k9zVHlytWATib-0UPHXiltqlj7N4wuCOAUPIbXd6aZEug
 
 
+from qdrant_client import QdrantClient
+
+qdrant_client = QdrantClient(
+    url="https://50bb3047-6394-4c0f-8c31-966993b3abef.us-east4-0.gcp.cloud.qdrant.io:6333", 
+    api_key="O7yMCkEy3k9zVHlytWATib-0UPHXiltqlj7N4wuCOAUPIbXd6aZEug",
+)
+
+print(qdrant_client.get_collections())
