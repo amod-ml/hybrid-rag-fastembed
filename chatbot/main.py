@@ -39,8 +39,8 @@ async def upload_file(file: UploadFile = File(...)):
     try:
         content = await process_file(file)
         return {"filename": file.filename, "content": content}
-    except ValueError as e:
-        raise HTTPException(status_code=402, detail=str(e))
+    except HTTPException as e:
+        raise e
     except Exception as e:
         logger.error(f"Error processing file: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal server error")

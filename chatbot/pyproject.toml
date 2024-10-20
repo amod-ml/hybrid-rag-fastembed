@@ -13,4 +13,5 @@ dependencies = [
     "python-docx",
     "python-dotenv>=1.0.1",
     "structlog",
+    "tiktoken>=0.8.0",
 ]
