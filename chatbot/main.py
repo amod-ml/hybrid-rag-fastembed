@@ -1,19 +1,11 @@
 import asyncio
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .utils.structlogger import logger
 from .router import router
-from .utils.session_manager import SessionManager
-from .core.file_ingestion_controller import process_file
-from .models import FileUploadResponse
+from .utils.conversation_manager import ConversationManager
 
 app = FastAPI()
-
-
-@app.get("/status")
-async def status():
-    return {"status": "alive"}
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -24,28 +16,15 @@ app.add_middleware(
 )
 app.include_router(router)
 
-session_manager = SessionManager(timeout=900)
-
+conversation_manager = ConversationManager(timeout=900)
 
 @app.on_event("startup")
 async def startup_event():
-    asyncio.create_task(session_manager.clear_inactive_sessions())
+    asyncio.create_task(clear_inactive_conversations())
 
+async def clear_inactive_conversations():
+    while True:
+        conversation_manager.clear_inactive_conversations()
+        await asyncio.sleep(300)  # Check every 5 minutes
 
 logger.info("Chatbot server started")
-
-
-@app.post("/upload", response_model=FileUploadResponse)
-async def upload_file(file: UploadFile = File(...)):
-    try:
-        chunk_list = await process_file(file)
-        return FileUploadResponse(
-            filename=file.filename,
-            chunks_inserted=len(chunk_list.chunks),
-            message="File processed and chunks inserted successfully"
-        )
-    except HTTPException as e:
-        raise e
-    except Exception as e:
-        logger.error(f"Error processing file: {str(e)}")
-        raise HTTPException(status_code=500, detail="Internal server error")

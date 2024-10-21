@@ -13,3 +13,9 @@ class Chunk(BaseModel):
 class ChunkList(BaseModel):
     chunks: List[Chunk]
 
+class ChatRequest(BaseModel):
+    conversation_id: str
+    query: str
+
+class ChatResponse(BaseModel):
+    message: str
