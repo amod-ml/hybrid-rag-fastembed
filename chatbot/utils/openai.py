@@ -2,7 +2,7 @@ import os
 import openai
 from dotenv import load_dotenv
 from fastapi import HTTPException
-from utils.structlogger import logger
+from .structlogger import logger
 
 load_dotenv()
 
