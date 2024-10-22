@@ -1,12 +1,11 @@
 import time
 import uuid
-from typing import Dict, List, Optional
-from collections import deque
+from typing import Dict, List
 
 
 class ConversationManager:
     """
-    A class to manage in-memory chat conversations with a timeout mechanism.
+    A class to manage in-memory chat conversations with only question-answer pairs.
 
     Attributes:
     -----------
@@ -14,7 +13,7 @@ class ConversationManager:
         A dictionary to store conversation data. Each conversation is identified by a unique conversation_id.
 
     max_history : int
-        The maximum number of messages to store in the conversation history.
+        The maximum number of question-answer pairs to store in the conversation history.
 
     timeout : int
         The time in seconds after which a conversation expires due to inactivity.
@@ -27,7 +26,7 @@ class ConversationManager:
         Parameters:
         -----------
         max_history : int
-            The maximum number of messages to store in the conversation history (default is 10).
+            The maximum number of question-answer pairs to store in the conversation history (default is 10).
 
         timeout : int
             The conversation expiration time in seconds (default is 900 seconds or 15 minutes).
@@ -36,51 +35,33 @@ class ConversationManager:
         self.max_history = max_history
         self.timeout = timeout
 
-    def create_conversation(self) -> str:
+    def create_conversation(self, conversation_id: str = None) -> str:
         """
-        Creates a new conversation with a unique conversation_id (UUID) and initializes its data.
+        Creates a new conversation with a given conversation_id or generates a new one.
+
+        Parameters:
+        -----------
+        conversation_id : str, optional
+            The conversation identifier. If not provided, a new UUID will be generated.
 
         Returns:
         --------
         str:
-            The generated unique conversation_id for the new conversation.
+            The conversation_id for the new conversation.
         """
-        conversation_id = str(uuid.uuid4())
+        if conversation_id is None:
+            conversation_id = str(uuid.uuid4())
+
         self.conversations[conversation_id] = {
-            "history": deque(maxlen=self.max_history),
-            "last_active": time.time()
+            "qa_pairs": [],
+            "last_active": time.time(),
         }
         return conversation_id
 
-    def add_message(self, conversation_id: str, role: str, content: str) -> None:
+    def get_qa_pairs(self, conversation_id: str) -> List[tuple]:
         """
-        Adds a message to an existing conversation's chat history.
-
-        Parameters:
-        -----------
-        conversation_id : str
-            The unique conversation identifier.
-
-        role : str
-            The role of the sender (either "user" or "bot").
-
-        content : str
-            The message content to be stored.
-
-        Raises:
-        -------
-        KeyError:
-            If the conversation_id does not exist in the conversation store.
-        """
-        if conversation_id in self.conversations:
-            self.conversations[conversation_id]["history"].append({"role": role, "content": content})
-            self.conversations[conversation_id]["last_active"] = time.time()
-        else:
-            raise KeyError(f"Conversation ID {conversation_id} not found.")
-
-    def get_history(self, conversation_id: str) -> Optional[List[Dict[str, str]]]:
-        """
-        Retrieves the chat history for a given conversation_id.
+        Retrieves the list of question-answer pairs for a given conversation_id.
+        If the conversation doesn't exist, it creates a new one.
 
         Parameters:
         -----------
@@ -89,24 +70,48 @@ class ConversationManager:
 
         Returns:
         --------
-        Optional[List[Dict[str, str]]]:
-            A list of dictionaries containing role and content pairs for the conversation.
-            If the conversation doesn't exist, returns None.
+        List[tuple]:
+            A list of tuples where each tuple contains a question and its corresponding answer.
         """
-        if conversation_id in self.conversations:
-            return list(self.conversations[conversation_id]["history"])
-        return None
+        if conversation_id not in self.conversations:
+            self.create_conversation(conversation_id)
+        return self.conversations[conversation_id]["qa_pairs"]
+
+    def add_message_pair(
+        self, conversation_id: str, question: str, answer: str
+    ) -> None:
+        """
+        Adds a question-answer pair to an existing conversation's history.
+        If the conversation doesn't exist, it creates a new one.
+
+        Parameters:
+        -----------
+        conversation_id : str
+            The unique conversation identifier.
+
+        question : str
+            The user's query (question).
+
+        answer : str
+            The assistant's response (answer).
+        """
+        if conversation_id not in self.conversations:
+            self.create_conversation(conversation_id)
+
+        self.conversations[conversation_id]["qa_pairs"].append((question, answer))
+        if len(self.conversations[conversation_id]["qa_pairs"]) > self.max_history:
+            self.conversations[conversation_id]["qa_pairs"].pop(0)
+        self.conversations[conversation_id]["last_active"] = time.time()
 
     def clear_inactive_conversations(self) -> None:
         """
         A background task that periodically checks and clears inactive conversations
         that have exceeded the timeout period.
-
-        This method should be run as a background task in the event loop.
         """
         current_time = time.time()
         inactive_conversations = [
-            cid for cid, data in self.conversations.items()
+            cid
+            for cid, data in self.conversations.items()
             if current_time - data["last_active"] > self.timeout
         ]
         for cid in inactive_conversations:

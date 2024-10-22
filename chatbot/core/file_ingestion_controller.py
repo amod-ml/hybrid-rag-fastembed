@@ -217,8 +217,10 @@ async def semantic_chunking(content: str) -> List[str]:
 
         return formatted_chunks
     except Exception as e:
-        logger.error(f"Error during semantic chunking: {type(e).__name__}", error=str(e))
-        if hasattr(e, 'response'):
+        logger.error(
+            f"Error during semantic chunking: {type(e).__name__}", error=str(e)
+        )
+        if hasattr(e, "response"):
             logger.error(f"API response: {e.response.text}")
         raise
 
