@@ -1,0 +1,16 @@
+_pycache_
+
+.venv
+
+.ruff_cache
+
+.pytest_cache
+
+poc/
+    
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+.mypy_cache

@@ -1,123 +1,123 @@
-# HealthTag Service Backend
+# Chatbot API
 
-This is the backend service for HealthTag, providing endpoints for categorizing and managing medical questions.
+This project is a FastAPI-based chatbot API with file ingestion capabilities.
 
-## Supported Endpoints
+## Endpoints
 
-### 1. Categorize Question
+### 1. Chat Endpoint
 
-This endpoint categorizes a medical question into one or more categories.
-
-- **Endpoint**: `/categorize`
+- **URL**: `/chat`
 - **Method**: POST
-- **Input Schema**:
+- **Request Body**:
   ```json
   {
-    "question": "string"
+    "conversation_id": "string",
+    "query": "string"
   }
   ```
-- **Response Schema**:
+- **Response**:
   ```json
   {
-    "categories": [
-      "Cardiovascular",
-      "Dermatology",
-      "Neurology",
-      "Oncology",
-      "Pediatrics",
-      "Endocrinology",
-      "Pulmonology",
-      "Other"
-    ]
+    "message": "string"
   }
   ```
 
-### 2. Categorize and Save Question
+### 2. File Upload Endpoint
 
-To categorize and save a question, you need to provide a question in the request body. The service will categorize the question and save it to the database.
-
-- **Endpoint**: `/categorize-and-save`
+- **URL**: `/upload`
 - **Method**: POST
-- **Input Schema**:
+- **Request Body**: Form data with file
+- **Response**:
   ```json
   {
-    "question": "string"
-  }
-  ```
-- **Response Schema**:
-  ```json
-  {
-    "message": "string",
-    "uuid": "string"
+    "filename": "string",
+    "chunks_inserted": "integer",
+    "message": "string"
   }
   ```
 
-### 3. Get Questions by Category
+### 3. Status Endpoint
 
-This endpoint retrieves questions based on the specified category.
-
-- **Endpoint**: `/questions`
+- **URL**: `/status`
 - **Method**: GET
-- **Query Parameter**: `category` (one of the supported medical categories)
-- **Response Schema**:
+- **Response**:
   ```json
-  [
-    {
-      "uuid": "string",
-      "question": "string",
-      "categories": [
-        "Cardiovascular",
-        "Dermatology",
-        "Neurology",
-        "Oncology",
-        "Pediatrics",
-        "Endocrinology",
-        "Pulmonology",
-        "Other"
-      ]
-    }
-  ]
+  {
+    "status": "alive"
+  }
   ```
 
-## Supported Medical Categories
-- Cardiovascular
-- Dermatology
-- Neurology
-- Oncology
-- Pediatrics
-- Endocrinology
-- Pulmonology
-- Other
+## Dockerization
 
-## Running the Application
-
-To run this application, follow these steps:
-
-
-1. Install `uv`:
-   - Visit the [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/) for detailed instructions.
-   - You can use the standalone installer:
-     ```
-     curl -LsSf https://astral.sh/uv/install.sh | sh
-     ```
-
-2. Navigate to the project directory:
+1. Ensure you have Docker installed on your system.
+2. Navigate to the project root directory containing the Dockerfile.
+3. Build the Docker image:
    ```
-   cd /poc/service-be
+   docker build -t chatbot-api .
    ```
 
-3. Sync dependencies:
-   ```
-   uv sync
-   ```
+## Running the Container Locally
 
-4. Run the FastAPI development server:
+Run the container with the following command:
+
+```
+docker run -p 8000:8000 chatbot-api
+```
+
+The API will be accessible at `http://localhost:8000`.
+
+## Deploying to EC2
+
+1. Launch an EC2 instance with Amazon Linux 2 or Ubuntu.
+2. Install Docker on the EC2 instance:
    ```
-   uv run fastapi dev main.py
+   sudo yum update -y
+   sudo amazon-linux-extras install docker
+   sudo service docker start
+   sudo usermod -a -G docker ec2-user
    ```
+3. Log out and log back in to apply the group changes.
+4. Clone your repository or copy the project files to the EC2 instance.
+5. Navigate to the project directory and build the Docker image:
+   ```
+   docker build -t chatbot-api .
+   ```
+6. Run the container:
+   ```
+   docker run -d -p 80:8000 chatbot-api
+   ```
+7. The API will be accessible at `http://<EC2-Public-IP>`.
 
-The server should now be running and accessible at `http://localhost:8000`.
+Make sure to configure your EC2 security group to allow inbound traffic on port 80.
 
-This is a POC and is not intended for production use.
+## Environment Variables
 
-This service is designed to be run in a local environment. If you want to run this service in a production environment, you need to configure the `OPENAI_API_KEY` and `MONGODB_URI` environment variables.
+Ensure you set up the following environment variables:
+
+- `OPENAI_API_KEY`: Your OpenAI API key
+- `QDRANT_URL`: URL for your Qdrant vector database
+- `QDRANT_API_KEY`: API key for Qdrant (if required)
+
+You can set these in the Dockerfile or pass them when running the container:
+
+```
+docker run -d -p 80:8000 \
+  -e OPENAI_API_KEY=your_key \
+  -e QDRANT_URL=your_url \
+  -e QDRANT_API_KEY=your_key \
+  chatbot-api
+```
+
+## Development
+
+To run the project locally for development:
+
+1. Install uv: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+2. Navigate to the project directory.
+3. Create a virtual environment: `uv venv`
+4. Activate the virtual environment: `source .venv/bin/activate`
+5. Install dependencies: `uv sync`
+6. Run the server: `uvicorn chatbot.main:app --reload`
+
+The API will be accessible at `http://localhost:8000`.
+```

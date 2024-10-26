@@ -1,9 +1,9 @@
 import asyncio
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .utils.structlogger import logger
-from .router import router
-from .utils.conversation_manager import ConversationManager
+from chatbot.utils.structlogger import logger
+from chatbot.router import router
+from chatbot.utils.conversation_manager import ConversationManager
 
 app = FastAPI()
 
