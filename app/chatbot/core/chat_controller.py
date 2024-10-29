@@ -145,49 +145,67 @@ async def process_chat(request: ChatRequest) -> ChatResponse:
 
     # Get conversation history (question-answer pairs)
     qa_pairs = conversation_manager.get_qa_pairs(conversation_id)
-
-    # Dynamically build the prompt using F-string and triple quotes
     history_text = "\n".join([f"Q: {q}\nA: {a}" for q, a in qa_pairs])
 
     client = await get_openai_client()
+    assistant_reply = ""  # Initialize reply variable
 
-    classification_prompt = await get_classification_prompt(query, history_text)
-    classification_result = await classify_query(client, classification_prompt)
+    try:
+        classification_prompt = await get_classification_prompt(query, history_text)
+        classification_result = await classify_query(client, classification_prompt)
 
-    if classification_result["search_required"]:
-        # Perform similarity search using Qdrant
-        query_embedding = await get_embeddings(
-            client, classification_result["search_query"]
-        )
-        search_results = search_similar_chunks(
-            "medical_document_repository", query_embedding, limit=3
-        )
-
-        # Extract embeddings and texts from search results
-        chunk_texts = [result.payload["text"] for result in search_results]
-        search_query = classification_result["search_query"]
-
-        rag_is_required = await determine_rag_response(search_query, chunk_texts)
-        if rag_is_required["result"]:
-            assistant_reply = await get_rag_response(
-                client, query, history_text, chunk_texts
+        if classification_result["search_required"]:
+            # Perform similarity search using Qdrant
+            query_embedding = await get_embeddings(
+                client, classification_result["search_query"]
             )
+            search_results = search_similar_chunks(
+                "medical_document_repository", query_embedding, limit=3
+            )
+
+            # Extract texts from search results
+            chunk_texts = [result.payload["text"] for result in search_results]
+            search_query = classification_result["search_query"]
+
+            rag_is_required = await determine_rag_response(search_query, chunk_texts)
+            if rag_is_required["result"]:
+                assistant_reply = await get_rag_response(
+                    client, query, history_text, chunk_texts
+                )
+            else:
+                # Use general knowledge response if RAG is not required
+                system_message = f"""You are a helpful medical assistant. 
+                Please answer the user's query based on your general knowledge.
+                Conversation history:
+                {history_text}
+                """
+                messages = [
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": f"User query: {query}"},
+                ]
+                assistant_reply = await generate_response(client, messages)
         else:
-            system_message = """You are a helpful medical assistant. 
+            # No search required, use general knowledge
+            system_message = f"""You are a helpful medical assistant. 
             Please answer the user's query based on your general knowledge.
             Conversation history:
             {history_text}
             """
+            messages = [
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": f"User query: {query}"},
+            ]
+            assistant_reply = await generate_response(client, messages)
 
-        messages = [
-            {"role": "system", "content": system_message},
-            {"role": "user", "content": f"User query: {query}"},
-        ]
-
-        assistant_reply = await generate_response(client, messages)
+        # Store the conversation
         conversation_manager.add_message_pair(conversation_id, query, assistant_reply)
 
+        # Always return a ChatResponse object
         return ChatResponse(message=assistant_reply)
+
+    except Exception as e:
+        logger.error(f"Error in process_chat: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error processing chat: {str(e)}")
 
 
 async def determine_rag_response(

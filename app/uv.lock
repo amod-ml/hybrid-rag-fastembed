@@ -99,6 +99,7 @@ dependencies = [
     { name = "qdrant-client" },
     { name = "structlog" },
     { name = "tiktoken" },
+    { name = "uvicorn" },
 ]
 
 [package.metadata]
@@ -113,6 +114,7 @@ requires-dist = [
     { name = "qdrant-client", specifier = ">=1.12.0" },
     { name = "structlog" },
     { name = "tiktoken", specifier = ">=0.8.0" },
+    { name = "uvicorn" },
 ]
 
 [[package]]
