@@ -50,7 +50,7 @@ This project is a FastAPI-based chatbot API with file ingestion capabilities.
 ## Dockerization
 
 1. Ensure you have Docker installed on your system.
-2. Navigate to the project root directory containing the Dockerfile.
+2. Navigate to the project root directory containing the Dockerfile. `cd app`
 3. Build the Docker image:
    ```
    docker build -t chatbot-api .
@@ -113,11 +113,9 @@ docker run -d -p 80:8000 \
 To run the project locally for development:
 
 1. Install uv: `curl -LsSf https://astral.sh/uv/install.sh | sh`
-2. Navigate to the project directory.
-3. Create a virtual environment: `uv venv`
-4. Activate the virtual environment: `source .venv/bin/activate`
-5. Install dependencies: `uv sync`
-6. Run the server: `uvicorn chatbot.main:app --reload`
+2. Navigate to the project directory. `cd app`
+3. Install dependencies: `uv sync`
+4. Run the server: `uv run fastapi dev chatbot/main.py` or `uv run uvicorn chatbot.main:app --reload`
 
-The API will be accessible at `http://localhost:8000`.
+The API will be accessible at `http://localhost:8000` and `http://localhost:8000/docs` for Swagger UI.
 ```
