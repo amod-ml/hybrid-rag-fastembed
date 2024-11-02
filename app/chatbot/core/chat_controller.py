@@ -10,18 +10,19 @@ from fastapi import HTTPException
 conversation_manager = ConversationManager()
 
 
-async def get_classification_prompt(query: str, history_text: str) -> str:
+async def get_search_query_prompt(query: str, history_text: str) -> str:
     return f"""
-    You are an AI assistant for a medical question-answer system. Your task is to determine if the current query requires searching a specialized medical document database, considering the conversation history.
+    You are an AI assistant for a medical question-answer system. Your task is to create a search query for a specialized medical document database, considering current query and the conversation history.
 
     Current Query: {query}
     Conversation History:
     {history_text}
 
-    Based on this context, determine whether retrieval of additional information from the medical database is necessary to answer the query accurately.
-    Please respond with a JSON object containing two fields:
-    1. "search_required": a boolean indicating whether a search is needed
-    2. "search_query": if search is required, provide a relevant search query based on the conversation history and current query; otherwise, set to null
+
+    Based on this context, create a search query for a specialized medical document database.
+    Please respond with a JSON object.
+
+    1. "search_query": provide a relevant search query based on the conversation history and current query
 
     Ensure your response is in valid JSON format.
     """
@@ -31,14 +32,11 @@ async def classify_query(client, prompt: str) -> Dict:
     response_format = {
         "type": "json_schema",
         "json_schema": {
-            "name": "Query_Classification_Result",
+            "name": "Search_Query",
             "schema": {
                 "type": "object",
-                "properties": {
-                    "search_required": {"type": "boolean"},
-                    "search_query": {"type": ["string", "null"]},
-                },
-                "required": ["search_required", "search_query"],
+                "properties": {"search_query": {"type": "string"}},
+                "required": ["search_query"],
                 "additionalProperties": False,
             },
             "strict": True,
@@ -151,43 +149,32 @@ async def process_chat(request: ChatRequest) -> ChatResponse:
     assistant_reply = ""  # Initialize reply variable
 
     try:
-        classification_prompt = await get_classification_prompt(query, history_text)
-        classification_result = await classify_query(client, classification_prompt)
+        search_query_prompt = await get_search_query_prompt(query, history_text)
+        search_query_result = await classify_query(client, search_query_prompt)
 
-        if classification_result["search_required"]:
-            # Perform similarity search using Qdrant
-            query_embedding = await get_embeddings(
-                client, classification_result["search_query"]
+        # if classification_result["search_required"]:
+        # Perform similarity search using Qdrant
+        query_embedding = await get_embeddings(
+            client, search_query_result["search_query"]
+        )
+        search_results = search_similar_chunks(
+            "medical_document_collection", query_embedding, limit=5
+        )
+
+        # Extract texts from search results
+        chunk_texts = [result.payload["text"] for result in search_results]
+        search_query = search_query_result["search_query"]
+
+        rag_is_required = await determine_rag_response(search_query, chunk_texts)
+        if rag_is_required["result"]:
+            assistant_reply = await get_rag_response(
+                client, query, history_text, chunk_texts
             )
-            search_results = search_similar_chunks(
-                "medical_document_repository", query_embedding, limit=3
-            )
-
-            # Extract texts from search results
-            chunk_texts = [result.payload["text"] for result in search_results]
-            search_query = classification_result["search_query"]
-
-            rag_is_required = await determine_rag_response(search_query, chunk_texts)
-            if rag_is_required["result"]:
-                assistant_reply = await get_rag_response(
-                    client, query, history_text, chunk_texts
-                )
-            else:
-                # Use general knowledge response if RAG is not required
-                system_message = f"""You are a helpful medical assistant. 
-                Please answer the user's query based on your general knowledge.
-                Conversation history:
-                {history_text}
-                """
-                messages = [
-                    {"role": "system", "content": system_message},
-                    {"role": "user", "content": f"User query: {query}"},
-                ]
-                assistant_reply = await generate_response(client, messages)
         else:
-            # No search required, use general knowledge
+            # Use general knowledge response if RAG is not required
             system_message = f"""You are a helpful medical assistant. 
-            Please answer the user's query based on your general knowledge.
+            Please answer the user's query.
+            Provide an accurate and helpful response. The response must not be formatted in markdown. This is a strict requirement.
             Conversation history:
             {history_text}
             """
@@ -220,7 +207,7 @@ async def determine_rag_response(
     Relevant information:
     {' '.join(chunk_texts)}
 
-    If yes you will return "result": "true", if no you will return "result": "false" in JSON format.
+    If yes you will return "result": "true", if no you will return "result": "false". The default should be "result": "true". False should be returned in rare exceptional cases where the user's query is completely unrelated to the context.
     """
 
     messages = [{"role": "system", "content": system_message}]
@@ -242,12 +229,11 @@ async def determine_rag_response(
     response = await client.chat.completions.create(
         model="gpt-4o",
         messages=messages,
-        temperature=0,
+        temperature=0.5,
         response_format=response_format,
     )
     logger.info(
-        "RAG determination",
-        result=json.loads(response.choices[0].message.content)["result"],
+        f"RAG relevace determination: {json.loads(response.choices[0].message.content)['result']} | Search query: {search_query}",
     )
     return json.loads(response.choices[0].message.content)
 
@@ -255,15 +241,18 @@ async def determine_rag_response(
 async def get_rag_response(
     client, query: str, history_text: str, chunk_texts: List[str]
 ) -> str:
-    system_message = f"""You are a helpful medical assistant. Please answer the user's query based on the following relevant information and your general knowledge.
-        
-        Conversation history:
+    system_message = f"""You are a helpful medical assistant. Please answer the user's query based on the following context given to you and your general knowledge.
+        ## When formulating your response, consider the following conversation history:
         {history_text}
-        
-        Relevant information:
+
+        - Your responses must be accurate and helpful. In a language that is easy to understand for a patient. 
+        ## When adding sources to your response, consider the following:
+        - Add sources to your response whenever possible. Extract source info from the metadata of the context.
+
+        ## Context:
         {' '.join(chunk_texts)}
 
-    Use this information to provide an accurate and helpful response."""
+    Use this information to provide an accurate and helpful response. The response must not be formatted in markdown. This is a strict requirement."""
 
     messages = [
         {"role": "system", "content": system_message},

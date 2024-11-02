@@ -19,7 +19,7 @@ class ConversationManager:
         The time in seconds after which a conversation expires due to inactivity.
     """
 
-    def __init__(self, max_history: int = 10, timeout: int = 900):
+    def __init__(self, max_history: int = 10, timeout: int = 1800):
         """
         Initializes the ConversationManager with a given conversation timeout and history size.
 
@@ -34,6 +34,7 @@ class ConversationManager:
         self.conversations: Dict[str, Dict] = {}
         self.max_history = max_history
         self.timeout = timeout
+        self.active_conversations = set()  # Track active conversations
 
     def create_conversation(self, conversation_id: str = None) -> str:
         """
@@ -56,6 +57,7 @@ class ConversationManager:
             "qa_pairs": [],
             "last_active": time.time(),
         }
+        self.active_conversations.add(conversation_id)  # Mark as active
         return conversation_id
 
     def get_qa_pairs(self, conversation_id: str) -> List[tuple]:
@@ -101,18 +103,41 @@ class ConversationManager:
         self.conversations[conversation_id]["qa_pairs"].append((question, answer))
         if len(self.conversations[conversation_id]["qa_pairs"]) > self.max_history:
             self.conversations[conversation_id]["qa_pairs"].pop(0)
+        self.active_conversations.add(conversation_id)  # Mark as active again
         self.conversations[conversation_id]["last_active"] = time.time()
+
+    def is_conversation_active(self, conversation_id: str) -> bool:
+        """
+        Check if a conversation is still active based on last activity time
+        and presence in active_conversations set.
+        """
+        if conversation_id not in self.conversations:
+            return False
+        
+        current_time = time.time()
+        last_active = self.conversations[conversation_id]["last_active"]
+        
+        # If conversation has been inactive for more than timeout, mark as inactive
+        if current_time - last_active > self.timeout:
+            self.active_conversations.discard(conversation_id)
+            return False
+            
+        return conversation_id in self.active_conversations
 
     def clear_inactive_conversations(self) -> None:
         """
-        A background task that periodically checks and clears inactive conversations
-        that have exceeded the timeout period.
+        Clear only conversations that are:
+        1. Not in active_conversations set
+        2. Have exceeded the timeout period
         """
         current_time = time.time()
         inactive_conversations = [
             cid
             for cid, data in self.conversations.items()
-            if current_time - data["last_active"] > self.timeout
+            if (current_time - data["last_active"] > self.timeout and 
+                cid not in self.active_conversations)
         ]
+        
         for cid in inactive_conversations:
             del self.conversations[cid]
+            self.active_conversations.discard(cid)

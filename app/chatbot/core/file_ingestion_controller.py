@@ -1,6 +1,5 @@
 import tiktoken
 import json
-import textwrap
 from ..utils.text_extraction import (
     extract_text_from_txt,
     extract_text_from_pdf,
@@ -16,12 +15,12 @@ from ..utils.structlogger import logger  # Import the logger
 from ..models import ChunkList, Chunk
 
 
-COLLECTION_NAME = "medical_document_repository"
+COLLECTION_NAME = "medical_document_collection"
 
 
 async def process_file(file: UploadFile) -> ChunkList:
     file_extension = file.filename.split(".")[-1].lower()
-    logger.info("Processing file", filename=file.filename, extension=file_extension)
+    logger.info(f"Processing file: {file.filename}, extension: {file_extension}")
 
     extractors = {
         "txt": extract_text_from_txt,
@@ -43,7 +42,7 @@ async def process_file(file: UploadFile) -> ChunkList:
         content = await extractor(file)
         logger.info("File content extracted successfully", filename=file.filename)
         token_count = num_tokens_from_string(content, "o200k_base")
-        logger.info("Token count calculated", count=token_count)
+        logger.info(f"Token count calculated: {token_count}")
 
         if token_count <= 128000:
             try:
@@ -58,7 +57,7 @@ async def process_file(file: UploadFile) -> ChunkList:
                 if not collection_exists(COLLECTION_NAME):
                     create_collection(COLLECTION_NAME)
                     logger.info(
-                        "Qdrant collection created", collection_name=COLLECTION_NAME
+                        f"Qdrant collection created: {COLLECTION_NAME}"
                     )
                 else:
                     logger.info(
@@ -133,24 +132,25 @@ async def semantic_chunking(content: str) -> List[str]:
     client = await get_openai_client()
     logger.info("Starting semantic chunking")
 
-    system_prompt = f"""You are an expert in semantic text analysis and chunking. Your task is to divide the given text into semantically coherent chunks, each with its own metadata. Follow these guidelines:
+    system_prompt = """You are an expert in semantic text analysis and chunking. Your task is to divide the given text into semantically coherent chunks, each with its own metadata. 
+    Read the full text of the document. All the information presented in the full text must strictly be covered in the chunks. Your task is to seperate the full text into chunks that are meaningful and coherent.
+    
+    Follow these guidelines:
 
-    1. Analyze the content and divide it into logical, semantically related chunks.
+    1. Divide the full text into units that are meaningful and coherent. All chunks combined must cover the total information present in the full text.
     2. Each chunk should be a self-contained unit of information.
     3. Chunk size can vary, but aim for chunks that are neither too short nor too long.
     4. For each chunk, provide:
     - The chunk text
     - A one-sentence summary
     - Relevant tags (keywords or phrases)
-    5. If there are references section, acknowledgements section, or other irrelevant parts of the text, ignore and exclude them from chunking.
-
-    Here's the text to chunk:
-
-    {content}
+    - Document Metadata (title, author, section, subsection, year)
+    5. If there are references section, contents, table of contents, abbreviations section, acknowledgements section, or other irrelevant parts of the text, ignore and exclude them from chunking.
+    6. Avoid repetition of the same information.
 
     Please provide the chunked text in the JSON format specified in the response_format.
 
-    Ensure that the entire text is covered in the chunks, and that the chunks are semantically meaningful and coherent."""
+    Ensure that the entire text is covered and not altered in the chunks, and that the chunks are semantically meaningful and coherent."""
 
     # Define the JSON schema for the expected output
     response_format = {
@@ -174,8 +174,16 @@ async def semantic_chunking(content: str) -> List[str]:
                                             "type": "array",
                                             "items": {"type": "string"},
                                         },
+                                        "document_metadata": {
+                                            "type": "array",
+                                            "items": {"type": "string"},
+                                        },
                                     },
-                                    "required": ["summary", "tags"],
+                                    "required": [
+                                        "summary",
+                                        "tags",
+                                        "document_metadata",
+                                    ],
                                     "additionalProperties": False,
                                 },
                             },
@@ -196,11 +204,8 @@ async def semantic_chunking(content: str) -> List[str]:
         response = await client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": textwrap.dedent(system_prompt)},
-                {
-                    "role": "assistant",
-                    "content": "Here is the chunked text in the requested format:",
-                },
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": f"Here is the full text of the document: {content}"},
             ],
             response_format=response_format,
         )
@@ -210,7 +215,7 @@ async def semantic_chunking(content: str) -> List[str]:
 
         # Format the chunks with metadata
         formatted_chunks = [
-            f"{chunk['text']}\n\nMetadata:\nSummary: {chunk['metadata']['summary']}\nTags: {', '.join(chunk['metadata']['tags'])}"
+            f"{chunk['text']}\n\nMetadata:\nSummary: {chunk['metadata']['summary']}\nTags: {', '.join(chunk['metadata']['tags'])}\nDocument Metadata: {', '.join(chunk['metadata']['document_metadata'])}"
             for chunk in result["chunks"]
         ]
         logger.info("Chunks formatted with metadata", chunk_count=len(formatted_chunks))

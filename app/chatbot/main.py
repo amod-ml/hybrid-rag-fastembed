@@ -16,7 +16,7 @@ app.add_middleware(
 )
 app.include_router(router)
 
-conversation_manager = ConversationManager(timeout=900)
+conversation_manager = ConversationManager(timeout=1800)
 
 
 @app.on_event("startup")
@@ -33,7 +33,7 @@ async def clear_inactive_conversations():
     """
     while True:
         conversation_manager.clear_inactive_conversations()
-        await asyncio.sleep(300)  # Check every 5 minutes
+        await asyncio.sleep(600)  # Check every 10 minutes
 
 
 logger.info("Chatbot server started")
