@@ -12,7 +12,7 @@ conversation_manager = ConversationManager()
 
 async def get_search_query_prompt(query: str, history_text: str) -> str:
     return f"""
-    You are an AI assistant for a question-answer system. Your task is to create a search query for a specialized document database, considering current query and the conversation history.
+    You are an AI assistant for a question-answer system. Your task is to create a detailed and comprehensive search query for a specialized document database, considering current query and the conversation history.
 
     Current Query: {query}
     Conversation History:
@@ -212,7 +212,7 @@ async def determine_rag_response(
 
     If yes you will return "result": "true", if no you will return "result": "false". 
     The default should be "result": "true". 
-    False should be returned in rare exceptional cases where the user's query is completely unrelated to the context.
+    False should be returned in rare exceptional cases where the context is completely unrelated to the user query.
     """
 
     messages = [{"role": "system", "content": system_message}]
