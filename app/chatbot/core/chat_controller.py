@@ -158,14 +158,15 @@ async def process_chat(request: ChatRequest) -> ChatResponse:
             client, search_query_result["search_query"]
         )
         search_results = search_similar_chunks(
-            "medical_document_collection", query_embedding, limit=5
+            "document_collection", query_embedding, limit=5
         )
-
+        logger.info(f"Search results: {search_results}")
         # Extract texts from search results
         chunk_texts = [result.payload["text"] for result in search_results]
         search_query = search_query_result["search_query"]
 
         rag_is_required = await determine_rag_response(search_query, chunk_texts)
+        #rag_is_required["result"] = True
         if rag_is_required["result"]:
             assistant_reply = await get_rag_response(
                 client, query, history_text, chunk_texts
@@ -209,7 +210,9 @@ async def determine_rag_response(
     Relevant information:
     {' '.join(chunk_texts)}
 
-    If yes you will return "result": "true", if no you will return "result": "false". The default should be "result": "true". False should be returned in rare exceptional cases where the user's query is completely unrelated to the context.
+    If yes you will return "result": "true", if no you will return "result": "false". 
+    The default should be "result": "true". 
+    False should be returned in rare exceptional cases where the user's query is completely unrelated to the context.
     """
 
     messages = [{"role": "system", "content": system_message}]

@@ -3,6 +3,7 @@ import openai
 from dotenv import load_dotenv
 from fastapi import HTTPException
 from .structlogger import logger
+from semantic_router.encoders import OpenAIEncoder
 
 load_dotenv()
 
@@ -28,3 +29,7 @@ async def initialize_openai_client() -> openai.AsyncOpenAI:
 # Use this function to get the OpenAI client when needed
 async def get_openai_client() -> openai.AsyncOpenAI:
     return await initialize_openai_client()
+
+
+async def get_openai_encoder() -> OpenAIEncoder:
+    return OpenAIEncoder(name="text-embedding-3-small")

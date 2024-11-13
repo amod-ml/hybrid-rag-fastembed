@@ -81,9 +81,7 @@ def insert_chunks(
         raise
 
 
-def search_similar_chunks(
-    collection_name: str, query_vector: List[float], limit: int = 3
-):
+def search_similar_chunks(collection_name: str, query_vector: List[float], limit: int):
     """
     Search for similar chunks in the specified collection.
     """

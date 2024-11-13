@@ -10,62 +10,78 @@ from .openai import get_openai_client
 from .structlogger import logger
 import os
 from datetime import datetime
-import textwrap
-from tenacity import (
-    retry,
-    stop_after_attempt,
-    wait_random_exponential,
-    retry_if_exception,
-)
-import openai
+import asyncio
+import time
+from asyncio import Semaphore
+import aiofiles
+# Constants for rate limiting and failure handling
+MAX_CONCURRENT_REQUESTS = 5
+REQUESTS_PER_MINUTE = 5
+LLM_FAILURE_LIMIT = 18
+LLM_FAILURE_COUNT = 0
+INITIAL_DELAY = 1
 
+# Create a semaphore to limit concurrent requests
+api_semaphore = Semaphore(MAX_CONCURRENT_REQUESTS)
 
-def should_retry_error(exception):
-    """
-    Determine if the error should trigger a retry based on specific error types and status codes
-    """
-    if isinstance(exception, openai.APIError):  # Server API errors
-        return True
-    if isinstance(exception, openai.APITimeoutError):  # Request timeout
-        return True
-    if isinstance(exception, openai.APIConnectionError):  # Network issues
-        return True
+class RateLimiter:
+    def __init__(self, max_calls: int, period: int):
+        self.max_calls = max_calls
+        self.period = period
+        self.calls = []
+        self.lock = asyncio.Lock()
 
-    # Check for specific HTTP status codes that warrant retries
-    if isinstance(exception, openai.BadRequestError):  # 400 errors
-        return False  # Don't retry bad requests
-    if isinstance(exception, openai.AuthenticationError):  # 401 errors
-        return False  # Don't retry auth errors
-    if isinstance(exception, openai.PermissionDeniedError):  # 403 errors
-        return False  # Don't retry permission errors
-    if isinstance(exception, openai.NotFoundError):  # 404 errors
-        return False  # Don't retry not found errors
-    if isinstance(exception, openai.RateLimitError):  # 429 errors
-        return True  # Retry rate limit errors
-    if isinstance(exception, openai.InternalServerError):  # 500 errors
-        return True  # Retry internal server errors
+    async def __aenter__(self):
+        async with self.lock:
+            now = time.time()
+            self.calls = [call for call in self.calls if call > now - self.period]
+            if len(self.calls) >= self.max_calls:
+                sleep_time = self.calls[0] - (now - self.period)
+                await asyncio.sleep(sleep_time)
+            self.calls.append(time.time())
 
-    return False
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        pass
 
+# Create a rate limiter instance
+rate_limiter = RateLimiter(REQUESTS_PER_MINUTE, 60)
 
-@retry(
-    wait=wait_random_exponential(min=1, max=60),
-    stop=stop_after_attempt(6),
-    retry=retry_if_exception(should_retry_error),
-)
 async def gpt4v_process_image(client, messages):
     """
-    Process image with GPT-4V with retry logic for specific error conditions
+    Process image with GPT-4V with rate limiting and failure tracking
     """
-    try:
-        return await client.chat.completions.create(
-            model="gpt-4o",
-            messages=messages,
-        )
-    except Exception as e:
-        logger.error(f"GPT-4V API error: {str(e)}")
-        raise
+    global LLM_FAILURE_COUNT
+    retries = 0
+    max_retries = 6
 
+    while retries < max_retries:
+        try:
+            async with api_semaphore, rate_limiter:
+                response = await client.chat.completions.create(
+                    model="gpt-4o",
+                    messages=messages,
+                    temperature=0.0,
+                )
+                LLM_FAILURE_COUNT = 0  # Reset failure count on success
+                return response
+                
+        except Exception as e:
+            retries += 1
+            LLM_FAILURE_COUNT += 1
+            logger.warning(f"GPT-4V processing attempt {retries} failed: {str(e)}")
+            
+            if LLM_FAILURE_COUNT >= LLM_FAILURE_LIMIT:
+                logger.critical("Too many consecutive LLM failures. Stopping.")
+                raise Exception("Too many consecutive LLM failures")
+                
+            if retries % 3 == 0:
+                logger.info("Waiting for 10 seconds before retrying...")
+                await asyncio.sleep(10)
+            else:
+                await asyncio.sleep(INITIAL_DELAY)
+    
+    logger.error("Max retries reached for GPT-4V processing")
+    raise Exception("Max retries reached for GPT-4V processing")
 
 async def extract_text_from_txt(file: UploadFile) -> str:
     content = await file.read()
@@ -86,110 +102,29 @@ async def extract_text_from_pdf(file: UploadFile) -> str:
 
     # Check if meaningful text was extracted using multiple criteria
     text_stripped = text.strip()
-
-    # Regex patterns for meaningful text detection
-    patterns = {
-        "sentences": r"[A-Z][^.!?]*[.!?]",  # Looks for proper sentences
-        "words": r"\b\w{2,}\b",  # Words with 2 or more characters
-        "alphanumeric": r"[A-Za-z0-9]+",  # Any alphanumeric sequences
-        "structured_data": r"[\t:,]\s*\w+",  # Common data delimiters with content
-    }
-
-    is_meaningful = (
-        len(text_stripped) > 50  # Basic length check
-        and bool(
-            re.search(patterns["sentences"], text_stripped)
-        )  # Has proper sentences
-        and len(re.findall(patterns["words"], text_stripped))
-        > 10  # Has sufficient words
-    )
-
-    if is_meaningful:
+    if is_text_meaningful(text_stripped):
         logger.info("Successfully extracted meaningful text directly from PDF")
         return text
 
-    logger.info(
-        "Direct text extraction failed quality checks, attempting OCR with GPT-4V"
-    )
+    logger.info("Direct text extraction failed quality checks, attempting OCR with GPT-4V")
 
     # Fallback: Convert pages to images and use GPT-4V
     try:
         client = await get_openai_client()
-        combined_text = ""
-
+        # Process all pages concurrently
+        tasks = []
         for page_num in range(len(pdf)):
             page = pdf[page_num]
-            # Convert page to PNG image
-            pix = page.get_pixmap(
-                matrix=fitz.Matrix(2, 2)
-            )  # 2x scaling for better quality
-            img_data = pix.tobytes("png")
+            base64_image = await convert_page_to_base64(page)
+            task = process_page_with_gpt4v(client, base64_image, page_num, len(pdf))
+            tasks.append(task)
 
-            # Convert to base64
-            base64_image = base64.b64encode(img_data).decode("utf-8")
+        # Wait for all pages to be processed
+        page_texts = await asyncio.gather(*tasks)
+        combined_text = "\n".join(page_texts)
 
-            # Improved prompt for better layout preservation
-            messages = [
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": textwrap.dedent(
-                                """Please extract ALL text content from this image, maintaining the following:
-                                        1. Preserve paragraph breaks and indentation
-                                        2. Keep table-like structures aligned with tabs or spaces
-                                        3. Maintain list formatting and numbering
-                                        4. Preserve section headers and their hierarchy
-                                        5. Keep any important line breaks that indicate document structure
-                                        6. Retain column-based text layout where present
-
-                                    Extract ONLY the text content - DO NOT ADD ANY DESCRIPTIONS, ANNOTATIONS, OR EXPLANATIONS. Format exactly as it appears."""
-                            ),
-                        },
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/png;base64,{base64_image}",
-                                "detail": "high",
-                            },
-                        },
-                    ],
-                }
-            ]
-
-            # Get response from GPT-4V
-            response = await client.chat.completions.create(
-                model="gpt-4o",
-                messages=messages,
-            )
-
-            page_text = response.choices[0].message.content
-            combined_text += f"\n{page_text}\n"
-            logger.info(f"Processed page {page_num + 1}/{len(pdf)} with GPT-4V")
-
-        # Save debug output
-        debug_dir = "debug_extractions"
-        os.makedirs(debug_dir, exist_ok=True)
-
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"{debug_dir}/extracted_text_{timestamp}.txt"
-
-        # Find next available filename
-        counter = 1
-        while os.path.exists(filename):
-            filename = f"{debug_dir}/extracted_text_{timestamp}_{counter}.txt"
-            counter += 1
-
-        try:
-            with open(filename, "w", encoding="utf-8") as f:
-                f.write(f"Original Extraction Attempt:\n{'='*50}\n")
-                f.write(text_stripped)
-                f.write(f"\n\nGPT-4V OCR Extraction:\n{'='*50}\n")
-                f.write(combined_text)
-            logger.info(f"Debug output saved to {filename}")
-        except Exception as e:
-            logger.error(f"Failed to save debug output: {str(e)}")
+        # Save debug output asynchronously
+        await save_debug_output(text_stripped, combined_text)
 
         logger.info("Successfully extracted text using GPT-4V OCR")
         return combined_text.strip()
@@ -197,6 +132,81 @@ async def extract_text_from_pdf(file: UploadFile) -> str:
     except Exception as e:
         logger.error(f"Error during GPT-4V OCR processing: {str(e)}")
         return text_stripped
+
+def is_text_meaningful(text: str) -> bool:
+    """Check if extracted text meets quality criteria"""
+    patterns = {
+        "sentences": r"[A-Z][^.!?]*[.!?]",
+        "words": r"\b\w{2,}\b",
+        "alphanumeric": r"[A-Za-z0-9]+",
+        "structured_data": r"[\t:,]\s*\w+",
+    }
+    
+    return (
+        len(text) > 50
+        and bool(re.search(patterns["sentences"], text))
+        and len(re.findall(patterns["words"], text)) > 10
+    )
+
+async def convert_page_to_base64(page) -> str:
+    """Convert PDF page to base64 encoded PNG"""
+    pix = page.get_pixmap(matrix=fitz.Matrix(2, 2))
+    img_data = pix.tobytes("png")
+    return base64.b64encode(img_data).decode("utf-8")
+
+async def process_page_with_gpt4v(client, base64_image: str, page_num: int, total_pages: int) -> str:
+    """Process a single page with GPT-4V"""
+    messages = [
+        {
+            "role": "system",
+            "content": pdf_extraction_prompt,
+        },
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Here is the image to extract text from:",
+                },
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/png;base64,{base64_image}",
+                        "detail": "high",
+                    },
+                },
+            ],
+        },
+    ]
+
+    response = await gpt4v_process_image(client, messages)
+    page_text = response.choices[0].message.content
+    logger.info(f"Processed page {page_num + 1}/{total_pages} with GPT-4V")
+    return page_text
+
+async def save_debug_output(original_text: str, ocr_text: str):
+    """Save debug output to file asynchronously"""
+    debug_dir = "debug_extractions"
+    os.makedirs(debug_dir, exist_ok=True)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"{debug_dir}/extracted_text_{timestamp}.txt"
+
+    # Find next available filename
+    counter = 1
+    while os.path.exists(filename):
+        filename = f"{debug_dir}/extracted_text_{timestamp}_{counter}.txt"
+        counter += 1
+
+    try:
+        async with aiofiles.open(filename, "w", encoding="utf-8") as f:
+            await f.write(f"Original Extraction Attempt:\n{'='*50}\n")
+            await f.write(original_text)
+            await f.write(f"\n\nGPT-4V OCR Extraction:\n{'='*50}\n")
+            await f.write(ocr_text)
+        logger.info(f"Debug output saved to {filename}")
+    except Exception as e:
+        logger.error(f"Failed to save debug output: {str(e)}")
 
 
 async def extract_text_from_docx(file: UploadFile) -> str:
@@ -221,3 +231,15 @@ async def extract_text_from_csv(file: UploadFile) -> str:
     csv_content = content.decode("utf-8").splitlines()
     reader = csv.reader(csv_content)
     return "\n".join(["\t".join(row) for row in reader])
+
+
+pdf_extraction_prompt = """
+Please extract the text from this image in a readable, continuous paragraph format, maintaining the logical grouping of sections, headers, and subheaders as seen in the original layout. Avoid unnecessary line breaks or gaps, ensuring the text flows like an article.
+ 
+If you detect a table:
+- Convert the table to HTML format, preserving the row and column structure as closely as possible. Keep it simple with HTML tags to allow future processing, without any visual grid lines or extraneous formatting. Ensure each cell’s content is correctly aligned within `<tr>`, `<th>`, and `<td>` tags.
+- If the table contains complex data, such as mathematical or highly structured information, indicate this within the HTML structure and ensure all data points are captured accurately.
+ 
+For any embedded images or diagrams:
+ - Provide a brief text description if they contain essential information. If they are purely decorative or non-informative, omit them from the output.
+"""
