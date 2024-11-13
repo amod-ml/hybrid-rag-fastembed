@@ -12,14 +12,14 @@ conversation_manager = ConversationManager()
 
 async def get_search_query_prompt(query: str, history_text: str) -> str:
     return f"""
-    You are an AI assistant for a medical question-answer system. Your task is to create a search query for a specialized medical document database, considering current query and the conversation history.
+    You are an AI assistant for a question-answer system. Your task is to create a search query for a specialized document database, considering current query and the conversation history.
 
     Current Query: {query}
     Conversation History:
     {history_text}
 
 
-    Based on this context, create a search query for a specialized medical document database.
+    Based on this context, create a search query for a specialized document database.
     Please respond with a JSON object.
 
     1. "search_query": provide a relevant search query based on the conversation history and current query
@@ -172,11 +172,13 @@ async def process_chat(request: ChatRequest) -> ChatResponse:
             )
         else:
             # Use general knowledge response if RAG is not required
-            system_message = f"""You are a helpful medical assistant. 
+            system_message = f"""You are a helpful assistant. 
             Please answer the user's query.
             Provide an accurate and helpful response. The response must not be formatted in markdown. This is a strict requirement.
             Conversation history:
             {history_text}
+
+            For legal purposes insert the following disclaimer at the end of your response: The information provided by this RAG engine is retrieved through integration with OpenAI's models.
             """
             messages = [
                 {"role": "system", "content": system_message},
@@ -200,7 +202,7 @@ async def determine_rag_response(
 ) -> Dict[str, bool]:
     client = await get_openai_client()
 
-    system_message = f"""You are an AI assistant that determines if the provided texts has context to accurately answer the user's medical question.
+    system_message = f"""You are an AI assistant that determines if the provided texts has context to accurately answer the user's question.
 
     User query: {search_query}
 
@@ -241,18 +243,20 @@ async def determine_rag_response(
 async def get_rag_response(
     client, query: str, history_text: str, chunk_texts: List[str]
 ) -> str:
-    system_message = f"""You are a helpful medical assistant. Please answer the user's query based on the following context given to you and your general knowledge.
+    system_message = f"""You are a helpful assistant. Please answer the user's query based on the following context given to you and your general knowledge.
         ## When formulating your response, consider the following conversation history:
         {history_text}
 
-        - Your responses must be accurate and helpful. In a language that is easy to understand for a patient. 
+        - Your responses must be accurate and helpful. In a language that is easy to follow. 
         ## When adding sources to your response, consider the following:
         - Add sources to your response whenever possible. Extract source info from the metadata of the context.
 
         ## Context:
         {' '.join(chunk_texts)}
 
-    Use this information to provide an accurate and helpful response. The response must not be formatted in markdown. This is a strict requirement."""
+    Use this information to provide an accurate and helpful response. The response must not be formatted in markdown. This is a strict requirement.
+    For legal purposes insert the following disclaimer at the end of your response: The information provided by this RAG engine is retrieved  from its own proprietary knowledgebase
+    """
 
     messages = [
         {"role": "system", "content": system_message},
