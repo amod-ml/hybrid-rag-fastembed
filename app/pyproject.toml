@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "asyncio>=3.4.3",
     "fastapi[standard]>=0.115.2",
+    "langchain-text-splitters>=0.3.2",
     "openai",
     "openpyxl>=3.1.5",
     "pymupdf>=1.1.2",
@@ -15,6 +16,7 @@ dependencies = [
     "qdrant-client>=1.12.0",
     "regex>=2024.9.11",
     "structlog",
+    "tenacity>=9.0.0",
     "tiktoken>=0.8.0",
     "uvicorn",
 ]

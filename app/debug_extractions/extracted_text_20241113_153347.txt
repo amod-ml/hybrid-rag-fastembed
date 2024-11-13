@@ -1,0 +1,1269 @@
+Original Extraction Attempt:
+==================================================
+
+
+GPT-4V OCR Extraction:
+==================================================
+
+```
+GATEWAY
+EDUCATION
+Delhi-NCR, Sonipat
+
+Version-1 (2024)
+
+INTERNSHIP
+&
+INDUSTRIAL 
+TRAINING POLICY
+
+FOR
+
+GATEWAY INSTITUTE OF 
+ENGINEERING & TECHNOLOGY (GIET)
+
+_______________
+
+GATEWAY COLLEGE OF
+ARCHITECTURE & DESIGN (GCAD)
+
+Campus Address : Sector-11, Sonipat-131001
+```
+
+```plaintext
+Table of Contents
+
+Sr. No.      Content                                                         Page
+                                                                            No.
+
+1            Preamble                                                            3
+
+2            Objectives                                                          3
+
+3            Internship / Industrial Training Policy B.Tech – CSE, CSE (AI/ML)  4
+
+4            Internship / Industrial Training Policy – Computer Applications    5
+             (BCA & MCA)
+
+5            Internship / Industrial Training Policy – School of Business      6
+             (BBA & MBA)
+
+6            Internship / Industrial Training Policy - B.Arch                 7 - 13
+
+7            Responsibilities of the Training & Placement (T&P) Cell for       14
+             Industrial Relationship
+
+8            Roles and Responsibilities of the Industry/Organization           14
+
+9            Roles and Responsibilities of the Department                      15
+
+10           Guidelines for Students& Evaluation                               16
+
+11           Annexures 
+Annexure (I)  ConfirmationReport-                                              17
+
+Annexure (II)  Joining Report                                                 18
+
+Annexure (III)  Intern Performance Review                                     19-20
+
+Annexure (IV)  Students Feedback Form                                         21
+
+Annexure (V)  Format of Student’s Daily Diary/Daily Log                       22
+
+Annexure (VI)  Reference Links for Online Courses / MOOCs. & Literature       23
+               Review Platforms
+
+Annexure (VII)  Finishing School - Soft Skills Training                       24
+
+Annexure (VIII)  Crash Courses                                                25
+
+Annexure (IX)  List of Contact Persons                                        26
+
+12           Frequently Asked Questions                                       27-28
+```
+
+INTRODUCTION
+
+The rise in global competition has prompted organizations to devise strategies to have a talented and 
+innovative workforce to gain a competitive edge. Developing an internship policy is an impactful 
+strategy for creating a future talent pool for the industry. The Internship program not only helps 
+fresh pass-outs in gaining professional know-how but also benefits, corporate on fresh perspectives 
+on business issues and even discovering future business leaders.
+
+OBJECTIVES
+
+Internships are educational and career development opportunities, providing practical 
+experience in a field or discipline. They are structured, short-term, supervised placements often 
+focused around particular tasks or projects with defined timescales. An internship may be 
+compensated, non-compensated or some time may be paid. The internship has to be meaningful 
+and mutually beneficial to the intern and the organization. It is important that the objectives and 
+the activities of the internship program are clearly defined and understood. Following are the 
+intended objectives of internship training:
+
+• Will expose Technical students to the industrial environment, which cannot be simulated in 
+  the classroom and hence creating competent professionals for the industry.
+
+• Provide possible opportunities to learn, understand and sharpen the real time technical / 
+  managerial skills required at the job.
+
+• Exposure to the current technological developments relevant to the subject area of training.
+
+• Experience gained from the 'Industrial Internship' in classroom will be used in classroom 
+  discussions.
+
+• Create conditions conducive to quest for knowledge and its applicability on the job.
+
+                                                                             Internship Policy                               Page 3
+
+Internship / Industrial Training Policy B.Tech – CSE, CSE (AI/ML)
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Year        | Tentative Month | No. of days | Duration                    | Details                                                   |
+-----------------------------------------------------------------------------------------------------------------------------------------
+| 1st         | June- July      | 07-15 days  | 30 - 50 hrs                 | • Mini Project Approved by DIC /                          |
+|             |                 |             | (4 hrs per day)             |   HOD. (30 hrs)                                           |
+|             |                 |             |                            | • Presentation on emerging / latest                       |
+|             |                 |             |                            |   technologies along with 15-20                           |
+|             |                 |             |                            |   pages report.                                           |
+|             |                 |             |                            | • Literature Review (10 hrs)                              |
+|             |                 |             |                            |   (Annexure – VI)                                         |
+|             |                 |             |                            | • MOOC's (10 hrs) (Annexure – VI)                         |
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Year        | Tentative Month | No. of days | Duration                    | Details                                                   |
+-----------------------------------------------------------------------------------------------------------------------------------------
+| 2nd *       | June- July      | 30 - 35     | 150 - 180 hrs              | • Professional / industrial Training                      |
+|             |                 |             | (5 hrs per day)            |   opportunities to be provided by                         |
+|             |                 |             |                            |   T&P Cell (150 hrs)                                      |
+|             |                 |             |                            | • Literature Review (20 hrs)                              |
+|             |                 |             |                            |   (Annexure – VI)                                         |
+|             |                 |             |                            |    OR                                                     |
+|             |                 |             |                            | • Curriculum Based LinkedIn                               |
+|             |                 |             |                            |   Courses (20 Hrs)                                        |
+|             |                 |             |                            | • MOOC's (10 hrs)                                         |
+|             |                 |             |                            |   (Annexure – VI)                                         |
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Year        | Tentative      | No. of days /   | Duration                    | Details                                                   |
+|             | Month          | week            |                             |                                                           |
+-----------------------------------------------------------------------------------------------------------------------------------------
+| 3rd *       | June- July     | 04 weeks        | 150 - 180 hrs              | • Professional / industrial Training                      |
+|             |                |                 | (5 hrs per day)            |   opportunities to be provided by                         |
+|             |                |                 |                            |   T&P Cell (150 hrs)                                      |
+|             |                |                 |                            | • MOOC's (10 hrs) (Annexure – VI)                         |
+|             |                |                 |                            | • Finishing School (30 hrs)                               |
+|             |                |                 |                            |   (Annexure – VII)                                        |
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+* (As per DCRUST, after completion of the 4th /6th semester examination, the students shall proceed for their Professional Training of at
+  least 4 weeks from industry, institute, research lab, training centre etc.)
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Year |                                                                                                                             |
+|      |                                                                                                                             |
+-----------------------------------------------------------------------------------------------------------------------------------------
+| 4th  | 1) After completion of the 7th semester examination, the students having CGPA of minimum 7.0 till 6th semester with no      |
+|      | backlog will only be eligible for Professional Training during complete 8th semester.                                       |
+|      | 2) Internal evaluation of Professional Training will be carried out 4 times in a semester at department level.              |
+|      | 3) A supervisor/ DIC will be allotted from the department to monitor the progress of students during the training.         |
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+                                                                                                             Internship Policy      Page 4
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+```
+Internship / Industrial Training Policy – Computer Applications (BCA & MCA)
+
+--------------------------------------------------------------------------
+| Year        | Tentative Month | No. of days | Duration    | Details      |
+--------------------------------------------------------------------------
+| BCA - 1st   | June- July      | 07-15 days  | 30 - 50 hrs | ■ Mini Project Approved |
+|             |                 |             | (4 hrs per  |    by DIC / HOD. (30 hrs)|
+|             |                 |             | day)        | ■ Presentation on emerging / latest technologies along with 15-20 pages report. |
+|             |                 |             |             | ■ Literature Review (10 hrs) (Annexure – VI) |
+|             |                 |             |             | ■ MOOC's (10 hrs) (Annexure – VI) |
+--------------------------------------------------------------------------
+
+--------------------------------------------------------------------------
+| Year        | Tentative Month | No. of days | Duration    | Details      |
+--------------------------------------------------------------------------
+| BCA - 2nd   | June- July      | 30 - 35     | 150 - 180 hrs| ■ Extn. Of Mini Project as of 2nd sem (80 hrs) |
+|             |                 |             | (5 hrs per   | ■ Finishing School (30 hrs)(Annexure – VII) |
+|             |                 |             | day)         | ■ Literature Review (20 hrs)(Annexure – VI) |
+|             |                 |             |             | ■ MOOC’s (30 hrs) (Annexure – VI) |
+--------------------------------------------------------------------------
+
+-----------------------------------------------------------------------
+| Year        |                  BCA – 3rd                            |
+-----------------------------------------------------------------------
+1) After completion of the 5th semester examination, the students having CGPA of minimum 6.0 till 4th semester with no backlog will only be eligible for Professional Training during complete 6th semester.
+
+2) Internal evaluation of Professional Training will be carried out 4 times in a semester at department level.
+
+3) A supervisor/ DIC will be allotted from the department to monitor the progress of students during the training.
+
+--------------------------------------------------------------------------
+
+--------------------------------------------------------------------------
+| Year        | Tentative Month | No. of days | Duration    | Details       |
+--------------------------------------------------------------------------
+| MCA – 1st   | June- July      | 07-15 days  | 30 - 50 hrs | ■ Research Methodology |
+|             |                 |             | (4 hrs per  |   Courses (Online platform like |
+|             |                 |             | day)        |   Linkedin, NPTEL, Coursera etc.) |
+|             |                 |             |             | ■ Literature Review of some recent |
+|             |                 |             |             |   technologies and publish review paper. |
+--------------------------------------------------------------------------
+
+                             Internship Policy                                      Page 5
+```
+
+```
+Internship / Industrial Training Policy – School of Business (BBA & MBA)
+
+┌────────────┬────────────────┬─────────────┬─────────────────┬──────────────────────────────────────────────────────────────────────────────┐
+│   Year     │ Tentative Month│ No. of days │ Duration        │ Details                                                                      │
+├────────────┼────────────────┼─────────────┼─────────────────┼──────────────────────────────────────────────────────────────────────────────┤
+│ BBA - 1st  │ June- July     │ 07-15 days  │ 30 - 50 hrs     │ • LinkedIn learning                                                          │
+│            │                │             │ (4 hrs per day) │   Courses Curriculum                                                         │
+│            │                │             │                 │   based Approved by                                                          │
+│            │                │             │                 │   DIC / HOD.(20 hrs)                                                          │
+│            │                │             │                 │ • FLTP (20 hrs) or 3                                                          │
+│            │                │             │                 │   Crash Courses (6hrs)                                                        │
+│            │                │             │                 │   (Annexure – VIII)                                                           │
+│            │                │             │                 │ • Literature Review (10                                                       │
+│            │                │             │                 │   hrs)(Annexure – VI)                                                         │
+│            │                │             │                 │ • MOOC’s (30 hrs)                                                             │
+│            │                │             │                 │   (Annexure – VI)                                                             │
+└────────────┴────────────────┴─────────────┴─────────────────┴──────────────────────────────────────────────────────────────────────────────┘
+┌────────────┬────────────────┬─────────────┬─────────────────┬──────────────────────────────────────────────────────────────────────────────┐
+│   Year     │ Tentative Month│ No. of days │ Duration        │ Details                                                                      │
+├────────────┼────────────────┼─────────────┼─────────────────┼──────────────────────────────────────────────────────────────────────────────┤
+│ BBA - 2nd *│ June- July     │ 06 - 08 week│ 220-250 hrs     │ • Industrial Training                                                        │
+│            │                │             │ ( 4 hrs per day)│   opportunities to be                                                        │
+│            │                │             │                 │   provided by T&P Cell (220                                                  │
+│            │                │             │                 │   hrs)                                                                        │
+│            │                │             │                 │ • Literature Review (20                                                      │
+│            │                │             │                 │   hrs)(Annexure – VI)                                                         │
+│            │                │             │                 │ • Finishing School (30 hrs)                                                  │
+│            │                │             │                 │   (Annexure – VII)                                                            │
+└────────────┴────────────────┴─────────────┴─────────────────┴──────────────────────────────────────────────────────────────────────────────┘
+*(As per DCRUST, after completion of the 4th semester examination, the students shall proceed for their Summer Internship of 6-8 weeks duration)
+
+┌────────────┬────────────────┬─────────────┬─────────────────┬──────────────────────────────────────────────────────────────────────────────┐
+│   Year     │ Tentative Month│ No. of days │ Duration        │ Details                                                                      │
+├────────────┼────────────────┼─────────────┼─────────────────┼──────────────────────────────────────────────────────────────────────────────┤
+│ MBA - 1st**│ June- July     │ 06 - 08 week│ 220-250 hrs     │ • Industrial Training                                                        │
+│            │                │             │ ( 4 hrs per day)│   opportunities to                                                          │
+│            │                │             │                 │   be provided by T&P Cell                                                    │
+│            │                │             │                 │   (220 hrs)                                                                  │
+│            │                │             │                 │ • Literature Review (10                                                      │
+│            │                │             │                 │   hrs)                                                                        │
+│            │                │             │                 │   (Annexure – VI)                                                             │
+│            │                │             │                 │ • Finishing School (30                                                        │
+│            │                │             │                 │   hrs)                                                                        │
+│            │                │             │                 │   (Annexure – VII)                                                            │
+└────────────┴────────────────┴─────────────┴─────────────────┴──────────────────────────────────────────────────────────────────────────────┘
+** (As per DCRUST, after completion of the second semester examination, the students shall proceed for their Summer Internship of 6-8 week duration.)
+
+FLTP: Financial Literacy Training Program
+DIC: Departmental Internship Coordinator
+MOOC’s: Massive Open Online Courses.
+
+                                              Internship Policy                                    Page 6
+```
+
+```
+Internship / Industrial Training Policy
+B.Arch (As Per COA & DCRUST Norms)
+
+1. Training Schedule
+2. Rules and Regulations
+3. Mode of Submission and Allocation of Marks
+4. Joining Report
+5. Monthly Progress Reports
+
+                        TRAINING SCHEDULE
+GENERAL INFORMATION
+
+Commencement of Practical Training:    Immediately after the university examination
+Duration of Practical Training:        24 Weeks
+Date of Submission of Portfolio:       To be finalized by the University.
+Date of Viva–Voce:                     As and when notified by the University.
+
+SCHEDULE FOR PROGRESS (PERIODIC) REPORTS
+
+A signed and stamped copy of Periodic reports in the prescribed pro-forma should be mailed by registered post/speed post by the dates mentioned below so as to reach the college office within a week of date of dispatch. Any dispute on account of postal delay will be considered only on the production of postal registration receipt by the student. The monthly report can be submitted by hand to the department office by 5:00 PM on the mentioned date.
+
+S. No.      Submittals                               Schedule of submission                 Marks
+1           Form 1: Parents’ consent                  On or before 26th June 2024             10
+2           Form 2: Approval of Training Office       On or before 3rd July 2024              10
+3           Form 3: Joining Report                    Between 3rd July to 10th July 2024      10
+4           Form 4a: Progress Report for July         Between 3rd Aug to 10th Aug 2024        10
+5           Form 4b: Progress Report for August       Between 3rd Sep to 10th Sep 2024        10
+6           Form 4c: Progress Report for September    Between 3rd Oct to 10th Oct 2024        10
+7           Form 4d: Progress Report for October      Between 3rd Nov to 10th Nov 2024        10
+8           Form 4e: Progress Report for November     Between 3rd Dec to 10th Dec 2024        10
+9           Form 4f: Progress Report for
+            December/January                          Between 3rd Jan to 10th Jan 2025        -
+10          Experience letter                         Prior to Practical Examination
+
+NOTE:
+1. Reports complete in all respect and received by the prescribed last date of receipt in the college will get full credit
+2. Reports received after the prescribed date will not be given any credit.
+
+RULES AND REGULATIONS
+
+Every student after appearing in the sixth semester B Arch examination is required to undergo practical training for a period of 24 weeks or one complete Semester.
+
+CHOICE OF FIRM
+
+Architects under whom the training is to be undertaken shall be registered with Council of Architecture and the minimum experience of the said Architect should be no less than 10 years on the basis of CoA registration.
+
+Internship Policy                                                                                       Page 7
+```
+
+```
+b)  Students should intimate to the college office and obtain approval of the Principal, GCAD within one week
+     of joining.
+c)  The Principal, GCAD reserves the right to ask the student to change the office if deemed necessary.
+
+CHANGE OF OFFICE AND ADDRESS
+a)  Students should not change the office they have joined. Any change, if totally unavoidable shall be made
+     only with prior permission of the college authorities and the earlier office.
+b)  Any Change of address/communication details should be intimated to the college authorities.
+
+LEAVE RULES
+a)  Leave up to a total of 6 days only can be allowed (subject to the approval of the Firm) in
+    addition to the Gazetted Holidays of the organization concerned. All leaves taken during the training period
+    have to be notified in the monthly reports and a proper leave account shall be made available to the
+    College.
+
+PROGRESS REPORTS & VIVA-VOCE
+a)  Regular progress reports are to be submitted to the college office every month as stipulated in the
+     schedule of submissions. (Refer Form 4).
+b)  The submission is to be made as mentioned in detail in the "Mode of submission".
+c)  The system of marking the reports and other submission has been elaborated in the "Allocation of Marks".
+
+IMPORTANT
+1.  All correspondences should be done through registered/speed post. The envelope shall be marked as “training
+    information”.
+2.  Students are advised to select office/firm carefully keeping the instructions issued during the practical training
+    orientation session.
+3.  Students are advised to avoid offices working on outsourcing projects.
+4.  In case any student fails to complete his/her training or in university exam, he/she will not be allowed to do his/her
+    dissertation in the next semester
+5.  Email based communications shall be done strictly within the deadlines mentioned.
+6.  Students are expected to behave like professionals. The college will take strong action against the student if any
+    official complaint from the firm related to inappropriate or unprofessional behavior is received.
+7.  The institute will keep the internal viva dates close to external viva dates, it is mandatory to attend both the viva’s.
+8.  In regard to student’s excellent performance and professional conduct, students can seek letter of recommendation
+    (optional) from architect’s office.
+9.  Maintaining communication with the training coordinator is essential.
+10. All correspondence should be addressed to the principal, Gateway College of architecture and design, gateway
+    campus, sector 11, Sonipat. 131001
+
+PRACTICAL TRAINING SCHEDULE
+                 MODE OF SUBMISSIONS & ALLOCATION OF MARKS
+
+The total marks assigned to the Practical Training in the Scheme of examination are 300 of which 150 are
+sessional marks. These shall be distributed as detailed below:
+
+A.  PERIODIC REPORTS & SUBMISSION (Sessional Assessment)                                                   150
+
+1.  Undertaking by parent (Form 1)                                                                           10
+2.  Approval of Training Office (Form 2)                                                                     10
+3.  Joining Report (Marks awarded to reports submitted in time) (Form 3)                                     10
+4.  Monthly Progress Reports 10 marks each (Form 4)                                                          50
+5.  Training Experience Certificate                                                                           5
+6.  Training Portfolio                                                                                      20
+7.  Building Report                                                                                         15
+8.  Building Material Report                                                                                15
+9.  Detailing Report                                                                                        15
+```
+
+
+```
+B. WORK TO BE PRESENTED FOR THE VIVA-VOCE150
+
+The following work done by the student during the office hours must be 
+submitted.
+a) All drawings, Presentation Drawings, Models, Submission drawings , Working 
+   Drawings, Base drawings and details
+b) Building study, Building material study, detailing study
+NOTE
+The Maximum number of prints to be submitted at the time of viva-voce is restricted to 25 
+prints for Final A3 Portfolio and 20 prints for each A4 Building study, building material 
+study, detailing study Report which shall be attested by the employer. The Portfolio prints 
+should cover the important projects the student has worked on during the training and 
+should be representative of the work done by the student during the training period.
+
+C. BUILDING STUDY
+a. The building study shall be a critical appraisal of one of the noted buildings/major projects 
+   designed and supervised by the Firm in which the candidate has undertaken training. 
+b. This report is to be submitted on a standard A-4 size with hard cover binding on the longer 
+   side.
+c. This study and analysis shall be put under following heads: a) Context, b) Space analysis, c) 
+   Circulation, Form, d) Built in furniture, e) Services, f) Constructional Techniques g) 
+   Construction technologies used any other specific features. The selection of the building 
+   must be made within a fortnight of joining the office.
+
+D. BUILDING MATERIAL STUDY
+   The Building Material study shall include pertinent data characteristics and rational 
+   application of the contemporary building materials in any project done by your office.
+
+E. DETAILING STUDY
+   The detailing study shall deal with the various aspect of an interesting details done by the 
+   firm where the candidate has done the training. You may include details of another project 
+   also.
+   The monthly report should carry details of the study done each fortnight failing which the 
+   marks for this section will be affected. Photocopy of a certificate from the employer after the 
+   completion of the training shall be submitted along with the Final Progress Report at the 
+   time of Viva-voce.
+
+                                                  Internship Policy            Page 9
+```
+
+```
+                                                FORM 1
+                            PRACTICAL TRAINING PROGRAMME
+                                      UNDERTAKING
+
+Name of Student …………………………
+
+To:
+The Principal
+Gateway College of Architecture and Design,
+Sonipat. 131001
+
+Dear Sir/Madam
+
+I…………………………………………….., father/mother of student of Gateway College of Architecture and Design (GCAD) 
+will ensure that my ward will undertake the training/ internship at my risk:
+
+      a)  I undertake to indemnify the college or the University and shall not hold them responsible for any untoward 
+          incidents as a result of our decisions.
+      b)  Should there be a change in situation due to pandemic or other circumstances, we will observe the 
+          guidance issued from the University/College from time to time as the case may be
+
+Name of the Student_________________________         Name of Father/ Mother____________________
+University Roll Number_______________________         Mobile__________________________________
+Mobile____________________________________         E mail id_________________________________
+E mail id__________________________________ 
+
+Signature of the student.                             Signature of Father/ Mother
+
+…………………………………                       ………………………………….
+Date                                                  Date
+
+                                                                                 
+                              Internship Policy                                                 Page 10
+```
+
+```
+To: 
+The Principal
+Gateway College of Architecture and Design,
+Sonipat. 131001
+
+                                            FORM 2
+
+                           Approval of offer of Internship
+
+Ma'am,
+
+I have received an offer to work as a student trainee in the office of architectural firm:
+
+________________________________________________________________________
+
+________________________________________________________________________
+
+and would like to seek your approval for apprenticeship.
+
+    1. Period of Internship ____________________________________________
+
+    2. Emoluments fixed _______________________________________________
+
+
+The above-mentioned firm has been in existence for ________________ years. 
+
+The principal architect possesses a professional experience of ______ years.
+
+
+                                                                   Yours faithfully,
+
+Name ____________________________            ____________________________
+            (Signature) Mobile
+
+Roll No. ______________________
+
+Place __________________________
+
+Certified that the information given above is correct.
+
+(Employer's Name with office stamp).
+Mobile ________________________           (Employer's Signature)
+                                               E Mail _______________________
+
+Council of Architecture
+Registration No. __________________       Employers Educational
+                                                      Qualification __________________
+
+                                              Page 11
+                                              Scanned with OKEN Scanner
+
+Internship Policy
+```
+
+```
+FORM 3
+
+GATEWAY COLLEGE OF ARCHITECTURE AND DESIGN, SONIPAT
+PRACTICAL TRAINING PROGRAMME
+JOINING REPORT
+
+1.   Name of student _____________________________Roll No. ______________
+2.   Address during training _____________________________
+     _____________________________
+     _____________________________
+     _____________________________
+
+3.   Contact No. during training _____________________________
+4.   E-mail ID of student _____________________________
+5.   Name of Office _____________________________
+6.   Address of Office _____________________________
+     _____________________________
+     _____________________________
+
+7.   Name of Principal Architect _____________________________
+8.   Office Phone Numbers _____________________________
+9.   Office E-mail ID _____________________________
+10.  Joining Date _____________________________
+11.  Stipend Fixed _____________________________
+
+Dated _____________                                    (Trainee's Signature)
+
+OFFICE CERTIFICATE
+I hereby certify that Mr. / Miss has joined my office/this firm as a student trainee and that the information supplied by him/her is correct.
+
+Dated___________                            (Employer's Name and Signature with office stamp)
+
+                                      Internship Policy                                                                                   Page 12
+```
+
+```
+FORM 4
+
+                                GATEWAY COLLEGE OF ARCHITECTURE AND DESIGN SONIPAT
+                                       PRACTICAL TRAINING PROGRAMME
+
+PROGRESS REPORT: Month __________________
+
+NAME OF STUDENT:______________________________ROLL NO.__________________
+
+Details of the project handled in this period:
+
+Name of project: ______________________________________________________________
+
+_____________________________________________________________________________
+
+Details about of the project undertaken (Project location, Stage of construction and your specific involvement)
+
+_____________________________________________________________________________
+
+_____________________________________________________________________________
+
+_____________________________________________________________________________
+
+Titles of drawings handled: ____________________________________________________
+
+_____________________________________________________________________________
+
+Your contribution in in the above-mentioned drawings: ____________________________
+
+_____________________________________________________________________________
+
+Site(s) visited by you and your key learning: ______________________________________
+
+_____________________________________________________________________________
+
+_____________________________________________________________________________
+
+Date:________________                                                      Signature of trainee
+
+1.      I hereby certify that the information given by Mr./Ms. ___________________________
+
+        __________________________________ is correct.
+
+2.      I hereby certify that Mr./Ms. __________________________________________________
+
+        was on leave for ______________ days during this period.
+
+Employer’s Signature                                                   Office Stamp
+
+Photocopy of a certificate from the employer after the completion of the training shall be submitted along with the Final
+Progress Report at the time of Viva-voce.
+
+                                                              Internship Policy                                    Page 13
+```
+
+Responsibilities of the Training & Placement (T&P) Cell for Industrial Relationship
+
+Training and Placement Cell of GIET is a nodal point of contact for companies seeking to establish a meaningful 
+relationship with the Institute. Training & Placement cell shall also design and implement internal curriculum, 
+take classes, arrange experts, arrange agency for student’s Personality Development, Improve Communication 
+Skills, Vocabulary, prepare students for Resume Preparation & Email Writing, Group Discussion, Interview 
+Skills, Aptitude Training & Practice Tests, Technical report writing, presentation skills, Foreign Languages, 
+proficiency etc. The placement team consists of Professor In- charge, Faculty In-charge, Training and Placement 
+officer, Student coordinators and the secretariat.
+
+The T&P cell will actively implement following roles and responsibilities for Internship:
+
+• The cell ensures that top notch opportunities to students where internship and Industrial trainings can be 
+  offered.
+
+• The cell will invite Industries/Organization for Internship and Industrial trainings for a period of 
+  minimum 4 to maximum 6 weeks or more. During their visit, the cell will be managing all relations 
+  between the visiting companies and the Institute and will provide all the possible assistance to the 
+  recruiters for Pre- Placement Talks, Conducting Tests and Interviews to the company personnel. 
+
+• The cell will do collaborations or sign MoU with the required Industries/organization/Platforms for 
+  availing internship and Industrial trainings opportunities for the students.
+
+• For building relationship and understanding industry needs, the T&P cell officials will also visit 
+  organizations. (In some cases visits can be planned with faculty mentors through one faculty one 
+  industry scheme)
+
+Roles and Responsibilities of the Industry / Organization
+
+After the allocation of internship slots by the industry to the institute, the students have to be allocated to the 
+industry. In case the industry wants to select the students based on their requirements, the industry can conduct an 
+interaction/ interview with the students and select the students. Industry will be monitoring and evaluating 
+interns/industrial training as per their standard criteria. Still the organizations/Industry should maintain the basic 
+guidelines discussed as follows:
+
+• The industry/organization will allot at least one mentor, who will be mentoring the interns in the 
+  internship/industrial training tenure.
+
+• Assigned Industrial mentor will monitor and evaluate the interns and also will share the assessment form 
+  with the faculty mentor on completion of internship/industrial training, so that students can be groomed in 
+  right direction.
+
+• The industry/organization policies and job description should be clearly shared with the interns.
+
+• Industry/organization must maintain the attendance record of the interns.
+
+• To evaluate the student’s performance based on their experience with thestudents.
+
+• To assist the faculty mentor/T&P cell officials in their visit to your organization, as this is part of 
+  internship evaluation process.
+
+• To issues an Internship/Industrial training/Project work completion certificate to the students.
+
+
+Page 14
+
+Internship Policy
+
+```  
+Roles and Responsibilities of the Department  
+  
+The active involvement of concerned departments along with their internship committee and Department  
+Internship Coordinator (DIC) / faculty mentor will add value to Internship. The departments will make  
+arrangements for all those UG students who do not get any opportunity for industrial  
+training/Internship/Project work through T&P cell and assign Department Internship Coordinator (DIC) /  
+faculty mentor to assist them for In-house training/internship program.  
+· Head of concerned departments will be monitoring Internship.  
+· Department Internship Coordinator (DIC) / Faculty mentor will be allotted to each student before   
+  commencing of their internship. The mentors, who will visit the industry, guide and evaluate them  
+  during their internship tenure.  
+· For effective intern supervision, the Department Internship Coordinator (DIC) / faculties mentors  
+  are expected to have discussion (Online) with the intern store view their progress on projects, and  
+  provide them feedback.  
+· For conducting student’s Final assessment, the HoD will constitute different faculty groups (3 faculty  
+  members recommended in each group), to evaluate the internship report/presentation of all the  
+  students.  
+· In case faculty mentor/HoD gets any disciplinary issue report/feedback from the industrial mentor,  
+  it may be shared with T&P office.  
+  
+Guidelines for Students  
+  
+Internship/Industrial training offer great opportunities for them to learn in industrial environment without  
+being an employee of the company. Following are the guidelines for the students:  
+· Students should register themselves for participating in the internship drive  
+  through Google form provided by T&P cell.  
+· Selected students may collect their confirmation letter from the T&P cell (Refer Annexure -I)  
+· Before starting their internship or Industrial training, every student should coordinate with their  
+  department for assigning a faculty mentor to monitor and guide them, during their  
+  internship/industrial training tenure.  
+· Students on joining internship/industrial training at the concerned Industry /Organization should  
+  submit the Joining letters to their respective supervising faculty mentor and T&P cell with the  
+  contact details of their internship supervisor. (Refer Annexure-Il)  
+· The training and Placement Cell will monitoring the internship and Industrial training process.  
+· The T&P cell guidelines will be applicable on the students throughout the process. Hence, they  
+  must go through these guidelines before participating in internship drive.  
+· Students may submit their Internship experience through the Student Feedback form (Annexure-  
+  IV) to T&P cell for future reference.  
+· Switching from one internship to another type of internship is strictly not allowed.  
+· Each student has to fill Daily-Log (Annexure-V) mandatorily and the regular monitoring of internship  
+  would be done through this daily log.  
+· Each student has to produce a report (soft copy in MS Word Format), along with power point  
+```  
+
+- Each student has to produce a report (soft copy in MS Word Format), along with power point   
+  presentation during final evaluation of internship scheduled in semester by respective department.
+
+- Producing Fake certificates of online internship in industry will not be considered during evaluation   
+  and strict action as per institute discipline policy may be taken.
+
+- Regular feedback will be taken from owner of the companies.
+
+Evaluation
+
+Evaluationprocessininternsprovidesthefeedbackaboutthestudentsperformanceis meeting or exceeding   
+employer standards, and in which areas they need to workharder or make adjustments (as well as   
+suggestions for what those adjustmentsmight be). While it is up to organization which way they want go,   
+we recommend the below mentioned evaluations process (Annexure–III) to be par to find us try feedback   
+mechanism. It is also important for students to be in touch with the Internship Head, for consultation and any   
+specific individual issues.
+
+Internship Policy                                                                                        Page 16
+
+Annexure - I
+
+                      CONFIRMATION LETTER
+
+To
+.......................................
+.......................................
+
+Subject: Confirmation letter of students for an internship - Reg
+
+Dear Sir / Madam,
+
+With reference to your letter/e-mail dated…………………………. on the above mentioned subject. As permitted by your good self the following students will undergo ……..weeks to …… weeks Internship in your esteemed organization under your guidance & directions.
+
+S. No   	Name of student              	Roll. No.                  	Branch                                 	Name of      	Faculty
+                                                                                                                                            Faculty        Mentor
+                                                                                                                                            Mentor        Email ID
+1.
+2.
+3.
+
+This internship being a mandatory part of the curriculum, the following guidelines have been prescribed in the curriculum for the internship. You are therefore, requested to please issue the following guidelines to the concerned manager/Industrial Mentor.
+
+1.  Internship schedule may be prepared and a copy of the same may be sent to us.
+2.  Issue instruction regarding working hours during training and maintenance of the attendance     record. 
+3.  The faculty mentor may connect industrial mentor for Industrial visit to evaluate student’s     performance.
+4.  Each student is required to prepare Internship report under the supervision of industrial       mentor. 
+5.  On completion of internship, the assessment report may please be forwarded to the     undersigned in scanned copy to faculty mentor mail ID. 
+
+Your efforts in this regard will positively enhance knowledge and practical skills of the students, your cooperation will be highly appreciated and we shall feel obliged.
+
+The students will abide by the rules and regulation of your organization and will maintain a proper discipline with keen interest during their Internship.
+
+Date: ....................................                                           Yours sincerely,
+
+                                                                                                  Training & Placement Officer
+
+Internship Policy                                                                       Page 17
+
+                                                                                     Scanned with OKEN Scanner
+
+JOINING REPORT
+
+(Scanned copy of the Report to be sent by the student within a week by email to the faculty mentor)
+
+1. Roll. No.                                : ____________________________________
+2. Student Name                       : ____________________________________
+3. Name & Address of the Organization      : ____________________________________
+                                                       ____________________________________
+                                                       ____________________________________
+                                                       ____________________________________
+   Telephone No.                      : ____________________________________
+   E-mail (Concerned HR Officer) : ____________________________________
+4. Residential Address of the Student :____________________________________
+                                                       ____________________________________
+                                                       ____________________________________
+                                                       ____________________________________
+
+   Contact / Mobile No.            : ____________________________________
+   E-mail                                   : ____________________________________
+   Stipend (If any)                    : ____________________________________
+   Any Other Facility provided   : ____________________________________
+   (Like Accommodation / meals /Conveyance etc.)
+
+I hereby inform that I have joined the organization on_________________________for the_______Semester.
+
+Date: ______________________              Signature of the Student __________________________
+
+
+CERTIFICATE BY THE INDUSTRIAL MENTOR/CO-ORDINATOR
+
+Certified that Mr. / Ms.____________________________have joined our organization for
+Internship/Industrial Training.
+
+Date: ______________________
+
+                                 Signature of the Coordinator
+                                           (With Seal)
+
+1. Name of the Ind. Coordinator : ____________________________________________
+2. Designation                           : ____________________________________________
+3. Phone No.                           : ____________________________________________
+4. E-mail                                   : ____________________________________________
+
+Internship Policy                                                                                           Page 18
+
+                                                                               Scanned with OKEN Scanner
+
+```
+Annexure – III
+
+                                 Gateway Institute of Engineering & Technology
+                                          Sector 11, Sonipat – 131001 Haryana
+
+                     Intern Performance Review / Employer assessment of Intern                                    
+
+          We appreciate your contribution to the professional growth and development of our students. In order 
+for us to best assess the experience, we request you to complete this form and return it to us at the end of 
+the internship period. We believe that your comments will help the student to build his career.
+
+Student Information
+
+Intern’s Name                                  Department
+Semester                                       Type: Paid/Unpaid
+Period of Internship      From:                To:
+
+Please rate the intern in each area using the following criteria and score: 
+Not Applicable-0; Not acceptable-1; Needs improvement-2; Meets Requirements-3;
+Above Average-4 ; Exceptional-5.
+
+1. Technical competencies
+Meets attendance and punctuality expectations; completes assigned tasks in time; keeps commitments and
+takes responsibility for own actions.
+
+   [ ] Meets Requirements   [ ] Needs improvement   [ ] Above Average
+
+   [ ] Exceptional          [ ] Not Applicable     [ ] Not acceptable
+
+2. Team Player
+Consistently demonstrates proactive nature takes independent action and calculated risks; knows when to seek
+prior approval.
+
+   [ ] Meets Requirements   [ ] Needs improvement   [ ] Above Average
+
+   [ ] Exceptional          [ ] Not Applicable     [ ] Not acceptable
+
+3. Communication Skills
+Exhibits good listening and comprehension; Interacts well with others and resolves conflicts.
+
+   [ ] Meets Requirements   [ ] Needs improvement   [ ] Above Average
+
+   [ ] Exceptional          [ ] Not Applicable     [ ] Not acceptable
+
+4. Learning Curve
+Competent in required job skills and knowledge; exhibits ability to learn and apply new skills; requires
+minimal supervision ability to apply creative solutions to problems.
+
+   [ ] Meets Requirements   [ ] Needs improvement   [ ] Above Average
+
+   [ ] Exceptional          [ ] Not Applicable     [ ] Not acceptable
+
+Internship Policy                                                                                    Page 19
+Scanned with OKEN Scanner
+```
+
+5. Decision making  
+   Accepts criticism and constructive feedback applies skills appropriate for carrying tasks and  
+   solving problems; makes sound decisions.
+   
+   ☐  Meets Requirements      ☐  Needs improvement      ☐  Above Average
+   
+   ☐  Exceptional             ☐  Not Applicable         ☐  Not acceptable
+
+6. Responsibility and Reliability  
+   Demonstrates accuracy and thoroughness; work reflects compliance to standards, commitment  
+   to excellence and attention to detail; strives to increase productivity.
+
+   ☐  Meets Requirements      ☐  Needs improvement      ☐  Above Average
+   
+   ☐  Exceptional             ☐  Not Applicable         ☐  Not acceptable
+
+7. Employment Skills  
+   Willingness to learn new skills which are job-specific or more general.
+
+   ☐  Meets Requirements      ☐  Needs improvement      ☐  Above Average
+   
+   ☐  Exceptional             ☐  Not Applicable         ☐  Not acceptable
+
+OVERALL EVALUATION:
+
+What would you grade this student?  
+A (25-35) - Excellent; B (15-24) - Good; C (10-14) - Average; D (0-9) - Poor
+
+☐
+
+Please give in written form of assessment of the student's performance.
+
+Is the student better prepared for the industry? What is the possibility of being hired as a permanent  
+employee in your concern?
+
+________________________________________________________________________________________
+
+What is your suggestion for improvement of the intern?
+
+________________________________________________________________________________________
+
+Employer Information:
+
+Name and Signature of the Reviewer  ___________________________________
+
+Designation & email                   ___________________________________
+
+Name of the Company                 ___________________________________
+
+Address                                    ___________________________________
+
+Date of Evaluation                    ___________________________________
+
+Internship Policy                                        Page 20
+
+```
+
+
+Annexure – IV
+
+                            STUDENT FEEDBACK FORM
+                     (After completion of internship)
+
+
+Name of Student:____________________________Branch:___________Roll No: _______
+
+Title : _____________________________________________________________________
+
+Organization Name & City: ____________________________________________________
+
+Supervisor Email :_______________________________Internship was: Paid___Unpaid_____
+
+Faculty Mentor: _______________________________________________________________
+
+Dates of Internship: From_________________________To __________________________
+
+
+1.  Was the work a valuable experience in relation to your academic studies?
+        
+    □ Yes      □ No
+
+2.  Were you given responsibilities that enabled you to apply the knowledge and skills you are learning
+    through university course work?
+      
+    □ Yes      □ No
+
+3.  Were you allowed to take the initiative to work beyond the basic requirements of the job?
+
+    □ Yes      □ No
+
+4.  Did the organization and/or supervisor work with you regularly?
+
+    □ Yes      □ No
+
+5.  Were they available to answer questions when necessary?
+
+    □ Yes      □ No
+
+6.  Briefly note new skills, techniques and knowledge gained in this position.
+   
+    _______________________________________________________________________
+
+    _______________________________________________________________________
+
+7.  What was your best experience of the internship?
+
+    _______________________________________________________________________
+
+    _______________________________________________________________________
+
+8.  Is there anything that was not covered that should have been covered in the internship program?
+
+    _______________________________________________________________________
+
+    _______________________________________________________________________
+
+9.  How would you describe the overall internship experience?
+
+    _______________________________________________________________________
+
+    _______________________________________________________________________
+
+10. Would you recommend this internship to other students?
+
+    □ Yes      □ No
+
+__________________________                             __________________________
+Internship Policy                                                        Page 21
+
+```
+
+Annexure - V
+
+Format of student’s Daily Diary/Daily Log
+(The daily log/diary may be maintained through a Google form/Github)
+
+Name of Student
+
+Roll No.
+
+Name of Course
+
+Date of Commencement of Internship/Industrial Training:
+Date of Completion of Internship/Industrial Training:
+
+┌─────┬─────────────────────────────────────┬────────┬───────────────────┐
+│ Sr. No. │ Please specify the learning of the day │ Date ├ Supervisor’s Sign │
+├─────┼─────────────────────────────────────┼────────┼───────────────────┤
+│ 1   │                                                         │        │                          │
+│ 2   │                                                         │        │                          │
+│ 3   │                                                         │        │                          │
+│ 4   │                                                         │        │                          │
+│ 5   │                                                         │        │                          │
+│ 6   │                                                         │        │                          │
+│ 7   │                                                         │        │                          │
+│ 8   │                                                         │        │                          │
+│ 9   │                                                         │        │                          │
+│ 10 │                                                         │        │                          │
+│ 11 │                                                         │        │                          │
+│ 12 │                                                         │        │                          │
+│ 13 │                                                         │        │                          │
+│ 14 │                                                         │        │                          │
+│ 15 │                                                         │        │                          │
+│ 16 │                                                         │        │                          │
+│ 17 │                                                         │        │                          │
+│ 18 │                                                         │        │                          │
+│ 19 │                                                         │        │                          │
+│ 20 │                                                         │        │                          │
+│ 21 │                                                         │        │                          │
+│ 22 │                                                         │        │                          │
+│ 23 │                                                         │        │                          │
+│ 24 │                                                         │        │                          │
+│ 25 │                                                         │        │                          │
+│ 26 │                                                         │        │                          │
+│ 27 │                                                         │        │                          │
+│ 28 │                                                         │        │                          │
+│ 29 │                                                         │        │                          │
+│ 30 │                                                         │        │                          │
+└─────┴─────────────────────────────────────┴────────┴───────────────────┘
+
+Internship Policy                                                    Page 22
+
+Scanned with OKEN Scanner
+
+```
+Annexure - VI
+
+Reference Links for Online Courses / MOOCs.
+
+• https://www.coursera.org/in
+
+• https://neat.aicte-india.org/
+
+• https://free.aicte-india.org/
+
+• Harvard University (Link: https://online-learning.harvard.edu/catalog/free)
+
+• Microsoft Academy (Link: https://academy.microsoft.com)
+
+• https://learning.tesionhub.in/iDH/India/
+
+• https://www.udemy.com/
+
+• LinkedIn Learning
+
+Note
+Minimum 5 & upto 10 Research Papers will be required to be downloaded by the students 
+and they need to write literature review report of 5-6 pages from these papers.
+
+Literature Review Platforms
+
+• Google Scholar
+
+• IEEE
+
+• Sciencedirect.com
+
+• Elsevier
+
+• Springer
+
+• Emerald
+
+• Taylor & Francis
+
+Internship Policy                                                                                           Page 23
+```
+
+Annexure – VII
+
+Finishing School - Soft Skills Training
+
+Introduction  
+The objective of the Soft Skills is to groom students as per company standards and to help them to  
+become employable in the placement drives to achieve better professional opportunities.
+
+Soft Skills Training will include the following training module:
+
+Soft Skills :- Communication, Mock Interviews
+
+
+Particulars                            Duration                                  Training Details
+                                                                                 Employability Skills:
+Soft Skills                     Finishing School                        Resume Writing (4 Hours)
+                                 (For Pre-Final year)                     Cover Letters (2 Hours) 
+                                                                              Mock Interviews (10 Hours)
+                               (30 Hours)                                      Group Discussion (5 Hours)
+                                                                               Business Etiquettes (9 Hours)
+
+
+Internship Policy                                                                                           Page 24
+
+```
+                                                                                           Annexure - VIII
+
+                                                                            Crash Courses
+
+I.	 Sales & Marketing (6 Hours)
+
+1.	 Marketing Fundamental.
+2.	 Market Research, Segmentation, Targeting and Positioning.
+3.	 Digital Marketing Basics.
+4.	 SEO, SEM, Social Media Marketing and Content Marketing.
+5.	 Sales Techniques and Management.
+6.	 The Sales Process, Relationship Building and Sales Strategy Planning.
+7.	 Brand Management.
+8.	 Building and Managing Brand Equity, Brand Positioning.
+
+II.	 Finance (6 Hours)
+
+1.	 Introduction to Financial Statements.
+2.	 Understanding Balance Sheet, Income Statements, and Cash Flow Statements.
+3.	 Fundamentals of Corporate Finance.
+4.	 Basic of Valuation, Capital Budgeting and Financial Ratios.
+5.	 Financial Planning and Analysis.
+6.	 Budgeting, Forecasting and Managing Financial Health.
+7.	 Investment Principles.
+8.	 Introduction to Stock Markets, Bonds and Investment Strategies.
+
+III.	 Human Resources (HR) (6 Hours)
+
+1.	 Fundamental of HR Management.
+2.	 Recruitment Selection on On-boarding Processes.
+3.	 Training & Development.
+4.	 Designing Effect Training Programs, Method of Employee Development.
+5.	 Performance Management.
+6.	 Setting Objectives, Performance Reviews, Feedback Mechanisms.
+7.	 Employee Relations and Legal Aspects.
+
+                                       
+                                                                               Internship Policy		                                                                     Page 25
+```
+
+Annexure - IX
+
+List of Contact Persons
+
+| S No. | Internship Activity                     | Name                | Designation/ Coordinator             | Dept.      | Email Id                         | Contact Number | 
+|------|-----------------------------------------|---------------------|------------------------------------|------------|---------------------------------|----------------|
+| 1.   | Mini Project & Presentation Topic       | Mr. Anil Arora      | HOD                                 | CSE        | hodcs@gateway.edu.in            | 8708016158     |
+| 2.   | FLTP Module & Crash Courses             | Dr.Mamta Arora      | HOD                                 | Management | mamta.arora@gateway.edu.in      | 9034539358     |
+| 3.   | FSSST                                   | Ms. Chetna Kapoor   | PDP Trainer                         | PDP Cell   | chetna.kapoor@gateway.edu.in    | 7206743823     |
+| 4.   | Industrial Training Opportunities       | Mr. Mandan Mishra   | HOD                                 | T&P Cell   | head.hr@gateway.edu.in          | 7469997097     |
+| 5.   |                                         | Ms. Geeta Kukreja   | Head Internship                     | T&P Cell   | geeta.kukreja@gateway.edu.in    | 9999574806     |
+| 6.   | Literature Review & MOOC's              | Ms. Neha Kalia      | Assistant Professor& DIC            | B. Tech (CS) & B.Tech (AI-ML) | neha.kalia@gateway.edu.in      | 9034465696     |
+| 7.   | Literature Review & MOOC's              | Ms. Namrata         | Assistant Professor& DIC            | BCA        | namrata.gaur@gateway.edu.in     | 7988599207     |
+| 8.   | Literature Review & MOOC's              | Ms. Shakuntla       | Assistant Professor& DIC            | BBA        | shakuntla.kumari@gateway.edu.in | 9467277778     |
+| 9.   | Literature Review & MOOC's              | Dr. Sunita Saini    | Assistant Professor& DIC            | MBA        | sunita.saini@gateway.edu.in     | 9896313278     |
+| 10.  | Training Coordinator                    | Mr. Shahzad Ahmed   | Associate Professor                | Architecture| shahzad.ahmed@gateway.edu.in    | 9953937439     |
+
+                                                                                                                    
+                                                                                                                    
+                                                                                                                    
+                                                 
+                                                                                                                    
+                                                                                                                                                                
+                                            
+Internship Policy                                                                                                                                                          Page 26
+
+```markdown
+                                                        Frequently Asked Questions
+
+Q1. If we have animations or any video content that we worked on during the internship, is there any provision for showing it in viva?
+
+Ans- Yes, you can show it on your laptop.
+
+Q2. In building study, we need to study our whole site, or we pick just one block from the site and study it.
+
+Ans- It depends on the size and scale of the project. However, in most cases complete study of any one of the buildings can suffice.
+
+Q3. Regarding building study: Amongst the completed projects of the firm, is it alright to choose an interior project?
+
+Ans- No, this exercise aims to understand the building design and construction as a whole. So, selecting any civil work project is recommended. For any Special case please discuss with the training co-ordinator.
+
+Q4. Monthly Report has to be attached in the document and submitted to the juror or have to be submitted to coordinator?
+
+Ans- Your Training joining letter, Training completion letter and all the monthly reports need to be submitted in original. You can keep them together in one file which can be presented to jury aswell.
+
+Q5. Is it necessary to bind the reports and portfolio, or can they be submitted as loose sheets?
+
+Ans- Portfolio should be spiral bound with proper cover page and the report can be in a single file or spiral bound with proper cover page followed by separators. You have to mention topic name, project name, location, client, project site area, built-up area and project cost on each separator sheet. For example: Building Study, project name- IGI airport, New Delhi, Client- Airport authority of India, Site Area- 1,000 Sqm. Project cost- 1000 Cr. Etc.
+
+Q6. Probable dates of the jury taking place?
+
+Ans. Date of the external jury is subjected to University Rules and time schedule.
+
+Q7.What do we need from the firm besides the experience letter?
+
+Ans- Your Training joining letter, Training completion letter and all the monthly reports need to be submitted in original (which are stamped and signed by the principal architect). Additionally, portfolio which includes drawing that you have worked on. Building study report, Building material study report and Detailing study report. All the pages should be stamped, and cover pages should be signed by the principal architect
+
+Q8.Internship period is of 24weeks or 6 months? if its 24 weeks then what do we have to do for form F?
+
+Ans- At the end of 24th week you must fill in form F and upload the same whenever drive link is shared with you. Original copy of the same is required to be attached in the file as mentioned above.
+
+Q9 - Will we have to compile our portfolio for the jury (month-wise or project-wise)?
+
+Ans- You can compile your portfolio based on the sequence of your best work.
+
+Q10.Where exactly is stamps and signatures required?
+
+Ans- Please refer to the Answer no 7.
+
+Q11.What specific elements need to be included in the portfolio and report? For instance, does the portfolio comprise our best work from the internship, while the report highlights the firm’s best projects?
+
+Ans- Yes, portfolio should show your best work and reports should showcase your study, analysis and understanding of firm’s best work.
+
+                                                                                                                                                      Internship Policy                                                                           Page 27
+```
+
+Q12. Will there be some kind of internal jury?
+
+Ans- Yes, schedule of both internal and external jury will be informed to you soon.
+
+Q14. Do we need to get extra copies of Portfolio and reports for university and college library?
+
+Ans- One copy of all the submittals mentioned above are required for the record purpose.
+
+Q15. Regarding the composition, is the layout Seal required, or do we compose it for presenting purpose?
+
+Ans- you can compose it in your way. However, Seal is required on certain drawings such as working drawing or submission
+drawing.
+
+Q16. What exactly is required in the Building Material Study? Is it to be of a specific project? What all contents are needed 
+regarding this?
+
+Ans- All the details pertaining to the building material study report are mentioned in the training manual, please refer the 
+same. For this study, you can choose any best project completed by your office till date.
+
+Internship Policy																																					Page 28
+
+Scanned with OKEN Scanner

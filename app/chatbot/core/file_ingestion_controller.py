@@ -1,5 +1,7 @@
 import tiktoken
 import json
+import openai
+import textwrap
 from ..utils.text_extraction import (
     extract_text_from_txt,
     extract_text_from_pdf,
@@ -13,6 +15,14 @@ from ..utils.openai import get_openai_client
 from ..utils.qdrant import create_collection, insert_chunks, collection_exists
 from ..utils.structlogger import logger  # Import the logger
 from ..models import ChunkList, Chunk
+from tenacity import (
+    retry,
+    stop_after_attempt,
+    wait_random_exponential,
+    retry_if_exception,
+)
+from json.decoder import JSONDecodeError
+from langchain_text_splitters.character import RecursiveCharacterTextSplitter
 
 
 COLLECTION_NAME = "medical_document_collection"
@@ -26,6 +36,7 @@ async def process_file(file: UploadFile) -> ChunkList:
         "txt": extract_text_from_txt,
         "pdf": extract_text_from_pdf,
         "docx": extract_text_from_docx,
+        "doc": extract_text_from_docx,
         "xlsx": extract_text_from_excel,
         "xls": extract_text_from_excel,
         "csv": extract_text_from_csv,
@@ -56,9 +67,7 @@ async def process_file(file: UploadFile) -> ChunkList:
             try:
                 if not collection_exists(COLLECTION_NAME):
                     create_collection(COLLECTION_NAME)
-                    logger.info(
-                        f"Qdrant collection created: {COLLECTION_NAME}"
-                    )
+                    logger.info(f"Qdrant collection created: {COLLECTION_NAME}")
                 else:
                     logger.info(
                         "Qdrant collection already exists",
@@ -128,17 +137,84 @@ def num_tokens_from_string(string: str, encoding_name: str) -> int:
     return num_tokens
 
 
+def should_retry_semantic_chunking(exception):
+    """
+    Determine if semantic chunking should be retried based on specific error types
+    """
+    if isinstance(exception, openai.APIError):  # Server API errors
+        return True
+    if isinstance(exception, openai.APITimeoutError):  # Request timeout
+        return True
+    if isinstance(exception, openai.APIConnectionError):  # Network issues
+        return True
+    if isinstance(exception, openai.RateLimitError):  # 429 errors
+        return True
+    if isinstance(exception, openai.InternalServerError):  # 500 errors
+        return True
+
+    # Don't retry on client errors or JSON decode errors
+    if isinstance(
+        exception,
+        (
+            openai.BadRequestError,  # 400
+            openai.AuthenticationError,  # 401
+            openai.PermissionDeniedError,  # 403
+            openai.NotFoundError,  # 404
+            JSONDecodeError,  # JSON parsing errors
+        ),
+    ):
+        return False
+
+    return False
+
+
+def create_basic_chunks(text: str) -> List[str]:
+    """
+    Fallback chunking method using RecursiveCharacterTextSplitter
+    """
+    try:
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=1000,
+            chunk_overlap=100,
+            length_function=len,
+            separators=["\n\n", "\n", " ", ""],
+        )
+
+        chunks = text_splitter.split_text(text)
+
+        # Format chunks with basic metadata
+        formatted_chunks = [
+            f"{chunk}\n\nMetadata:\nSummary: Auto-generated chunk\nTags: automatic_split\nDocument Metadata: basic_split"
+            for chunk in chunks
+        ]
+
+        logger.info(f"Created {len(formatted_chunks)} chunks using basic text splitter")
+        return formatted_chunks
+
+    except Exception as e:
+        logger.error(f"Error in basic chunking: {str(e)}")
+        raise
+
+
+@retry(
+    wait=wait_random_exponential(min=1, max=60),
+    stop=stop_after_attempt(6),
+    retry=retry_if_exception(should_retry_semantic_chunking),
+)
 async def semantic_chunking(content: str) -> List[str]:
+    """
+    Semantically chunk content with retry logic and fallback to basic chunking
+    """
     client = await get_openai_client()
     logger.info("Starting semantic chunking")
 
     system_prompt = """You are an expert in semantic text analysis and chunking. Your task is to divide the given text into semantically coherent chunks, each with its own metadata. 
-    Read the full text of the document. All the information presented in the full text must strictly be covered in the chunks. Your task is to seperate the full text into chunks that are meaningful and coherent.
+    Read the full text of the document. All the information presented in the full text must strictly be covered in the chunks as is without summarizing, editing or altering the text. Your task is to seperate the full text into chunks that are meaningful and coherent.
     
     Follow these guidelines:
 
-    1. Divide the full text into units that are meaningful and coherent. All chunks combined must cover the total information present in the full text.
-    2. Each chunk should be a self-contained unit of information.
+    1. Divide the full text into units that are meaningful and coherent. All chunks combined must cover the total text present in the full text.
+    2. Each chunk should be a self-contained unit of information. You must not summarize, edit or alter the text in the chunks.
     3. Chunk size can vary, but aim for chunks that are neither too short nor too long.
     4. For each chunk, provide:
     - The chunk text
@@ -205,29 +281,48 @@ async def semantic_chunking(content: str) -> List[str]:
             model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": f"Here is the full text of the document: {content}"},
+                {
+                    "role": "user",
+                    "content": f"Here is the full text of the document: {textwrap.dedent(content)}",
+                },
             ],
             response_format=response_format,
         )
         logger.info("Semantic chunking API call successful")
 
-        result = json.loads(response.choices[0].message.content)
+        try:
+            result = json.loads(response.choices[0].message.content)
+            # Format the chunks with metadata
+            formatted_chunks = [
+                f"{chunk['text']}\n\nMetadata:\nSummary: {chunk['metadata']['summary']}\nTags: {', '.join(chunk['metadata']['tags'])}\nDocument Metadata: {', '.join(chunk['metadata']['document_metadata'])}"
+                for chunk in result["chunks"]
+            ]
+            logger.info(
+                "Chunks formatted with metadata", chunk_count=len(formatted_chunks)
+            )
+            return formatted_chunks
 
-        # Format the chunks with metadata
-        formatted_chunks = [
-            f"{chunk['text']}\n\nMetadata:\nSummary: {chunk['metadata']['summary']}\nTags: {', '.join(chunk['metadata']['tags'])}\nDocument Metadata: {', '.join(chunk['metadata']['document_metadata'])}"
-            for chunk in result["chunks"]
-        ]
-        logger.info("Chunks formatted with metadata", chunk_count=len(formatted_chunks))
+        except JSONDecodeError as e:
+            logger.warning(
+                f"JSON decode error: {str(e)}. Falling back to basic chunking"
+            )
+            logger.debug(
+                f"Failed response content: {response.choices[0].message.content}"
+            )
+            return create_basic_chunks(content)
 
-        return formatted_chunks
     except Exception as e:
         logger.error(
             f"Error during semantic chunking: {type(e).__name__}", error=str(e)
         )
         if hasattr(e, "response"):
             logger.error(f"API response: {e.response.text}")
-        raise
+
+        # Fallback to basic chunking for any other errors
+        logger.warning(
+            "Falling back to basic chunking due to semantic chunking failure"
+        )
+        return create_basic_chunks(content)
 
 
 async def get_embeddings(chunks: List[str]) -> List[List[float]]:
