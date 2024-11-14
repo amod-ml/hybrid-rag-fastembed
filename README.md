@@ -1,121 +1,34 @@
-# Chatbot API
+# Advanced Retrieval-Augmented Generation (RAG) System with Hybrid Search and Dynamic OCR
 
-This project is a FastAPI-based chatbot API with file ingestion capabilities.
+This repository contains the final version of a cutting-edge Retrieval-Augmented Generation (RAG) system, developed with a robust, multi-layered architecture tailored to handle diverse university-related queries.
 
-## Endpoints
+## Project Overview
 
-### 1. Chat Endpoint
+This RAG system leverages state-of-the-art components to deliver a highly advanced chatbot capable of handling complex document ingestion, hybrid search, and dynamic OCR processing. Notable features include:
 
-- **URL**: `/chat`
-- **Method**: POST
-- **Request Body**:
-  ```json
-  {
-    "conversation_id": "string",
-    "query": "string"
-  }
-  ```
-- **Response**:
-  ```json
-  {
-    "message": "string"
-  }
-  ```
+- **Dynamic OCR with Table-to-Paragraph Conversion**: Utilizing GPT-4 Vision for Optical Character Recognition, tables are intelligently converted to readable paragraph formats to enhance retrieval accuracy, ensuring all data points are accessible in a non-tabular structure suitable for embedding.
+  
+- **Hybrid Search with Advanced Embedding Models**:
+  - **Dense Embedding**: Incorporates the latest dense embedding model, `Snowflake/Snowflake-Arctic-Embed-XS`, enabling precise vector representation for semantic understanding.
+  - **Sparse Embedding**: Utilizes Qdrant's `Qdrant/BM42-All-MiniLM-L6-V2-Attentions`, providing robust sparse embedding for keyword relevance and nuanced information retrieval. Both embeddings are integrated via FastEmbed for a comprehensive search experience.
+  
+- **Statistical Semantic Chunking**: This system applies OpenAI embeddings for statistical semantic chunking, allowing large documents to be segmented into relevant sections that preserve logical coherence for improved answer retrieval.
 
-### 2. File Upload Endpoint
+- **Comprehensive Hybrid Search Engine**: By combining dense and sparse embeddings, this system enables a sophisticated hybrid search, optimizing retrieval across varied data types and ensuring that results are as relevant and contextually accurate as possible.
 
-- **URL**: `/upload`
-- **Method**: POST
-- **Request Body**: Form data with file
-- **Response**:
-  ```json
-  {
-    "filename": "string",
-    "chunks_inserted": "integer",
-    "message": "string"
-  }
-  ```
+- **Additional Features**:
+  - Built-in chat history management to maintain conversation continuity.
+  - Custom disclaimers based on context source (e.g., proprietary knowledgebase or general AI knowledge).
+  - Intelligent query generation tailored for different user types, supporting diverse use cases within a university environment.
 
-### 3. Status Endpoint
+## Project Constraints and Limitations
 
-- **URL**: `/status`
-- **Method**: GET
-- **Response**:
-  ```json
-  {
-    "status": "alive"
-  }
-  ```
+This implementation is at the forefront of current RAG technology, pushing the boundaries of hybrid search and OCR capabilities. However, several constraints remain:
 
-## Dockerization
+- **Data Mismatch**: The nature of the provided documents and the variety of user queries have led to some mismatches, particularly when handling questions with no directly relevant data.
+- **Non-English Character Handling**: The embedding models are optimized for English text, and the presence of non-English characters has introduced challenges in embedding accuracy and relevance.
+- **Unstructured and Noisy Data**: Some documents contain extraneous information or unstructured data that can disrupt chunk coherence and diminish retrieval precision.
 
-1. Ensure you have Docker installed on your system.
-2. Navigate to the project root directory containing the Dockerfile. `cd app`
-3. Build the Docker image:
-   ```
-   docker build -t chatbot-api .
-   ```
+## Final Developer Sign-Off
 
-## Running the Container Locally
-
-Run the container with the following command:
-
-```
-docker run -p 8000:8000 chatbot-api
-```
-
-The API will be accessible at `http://localhost:8000`.
-
-## Deploying to EC2
-
-1. Launch an EC2 instance with Amazon Linux 2 or Ubuntu.
-2. Install Docker on the EC2 instance:
-   ```
-   sudo yum update -y
-   sudo amazon-linux-extras install docker
-   sudo service docker start
-   sudo usermod -a -G docker ec2-user
-   ```
-3. Log out and log back in to apply the group changes.
-4. Clone your repository or copy the project files to the EC2 instance.
-5. Navigate to the project directory and build the Docker image:
-   ```
-   docker build -t chatbot-api .
-   ```
-6. Run the container:
-   ```
-   docker run -d -p 80:8000 chatbot-api
-   ```
-7. The API will be accessible at `http://<EC2-Public-IP>`.
-
-Make sure to configure your EC2 security group to allow inbound traffic on port 80.
-
-## Environment Variables
-
-Ensure you set up the following environment variables:
-
-- `OPENAI_API_KEY`: Your OpenAI API key
-- `QDRANT_URL`: URL for your Qdrant vector database
-- `QDRANT_API_KEY`: API key for Qdrant (if required)
-
-You can set these in the Dockerfile or pass them when running the container:
-
-```
-docker run -d -p 80:8000 \
-  -e OPENAI_API_KEY=your_key \
-  -e QDRANT_URL=your_url \
-  -e QDRANT_API_KEY=your_key \
-  chatbot-api
-```
-
-## Development
-
-To run the project locally for development:
-
-1. Install uv: `curl -LsSf https://astral.sh/uv/install.sh | sh`
-2. Navigate to the project directory. `cd app`
-3. Install dependencies: `uv sync`
-4. Run the server: `uv run fastapi dev chatbot/main.py` or `uv run uvicorn chatbot.main:app --reload`
-
-The API will be accessible at `http://localhost:8000` and `http://localhost:8000/docs` for Swagger UI.
-```
+This repository is no longer maintained by `amodsgit`, the original developer, as of this commit. This implementation represents a high watermark in RAG system capability given current technology, and **no further updates or enhancements will be provided**.
