@@ -1,3 +1,10 @@
+from fastapi import UploadFile, HTTPException
+from typing import List
+from ..utils.openai import get_openai_encoder
+from ..utils.qdrant import qdrant_manager
+from ..utils.structlogger import logger
+from ..models import ChunkList, Chunk
+from semantic_chunkers import StatisticalChunker
 from ..utils.text_extraction import (
     extract_text_from_txt,
     extract_text_from_pdf,
@@ -5,31 +12,47 @@ from ..utils.text_extraction import (
     extract_text_from_excel,
     extract_text_from_csv,
 )
-from fastapi import UploadFile, HTTPException
-from typing import List
-from ..utils.openai import get_openai_client, get_openai_encoder
-from ..utils.qdrant import create_collection, insert_chunks, collection_exists
-from ..utils.structlogger import logger  # Import the logger
-from ..models import ChunkList, Chunk
-from langchain_text_splitters.character import RecursiveCharacterTextSplitter
-from semantic_chunkers import StatisticalChunker
+
+COLLECTION_NAME = "document_collection_hybrid"
 
 
-COLLECTION_NAME = "document_collection"
+async def process_file(file: UploadFile):
+    """Process file and store in Qdrant with hybrid search"""
+    try:
+        # Get the appropriate extractor
+        extractor = get_extractor(file.filename.split(".")[-1].lower())
 
+        # Extract text content
+        content = await extract_file_content(extractor, file)
 
-async def process_file(file: UploadFile) -> ChunkList:
-    file_extension = file.filename.split(".")[-1].lower()
-    logger.info(f"Processing file: {file.filename}, extension: {file_extension}")
+        # Create semantic chunks
+        chunks = await semantic_chunking(content)
 
-    extractor = get_extractor(file_extension)
-    content = await extract_file_content(extractor, file)
-    chunks = await semantic_chunking(content)
-    ensure_collection_exists(COLLECTION_NAME)
-    embeddings = await generate_embeddings(chunks)
-    insert_chunks_into_qdrant(COLLECTION_NAME, chunks, embeddings)
+        # Ensure collection exists
+        ensure_collection_exists(COLLECTION_NAME)
 
-    return ChunkList(chunks=[Chunk(text=chunk, metadata={}) for chunk in chunks])
+        # Add chunks to Qdrant with metadata
+        metadata = [
+            {
+                "filename": file.filename,
+                "chunk_index": i,
+                "preview": chunk.text[:100] + "..."
+                if len(chunk.text) > 100
+                else chunk.text,
+            }
+            for i, chunk in enumerate(chunks)
+        ]
+
+        # Use simplified Qdrant manager to add chunks
+        qdrant_manager.add_chunks(
+            collection_name=COLLECTION_NAME, chunks=chunks, metadata=metadata
+        )
+
+        return ChunkList(chunks=chunks)
+
+    except Exception as e:
+        logger.error("Error processing file", error=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 def get_extractor(file_extension: str):
@@ -66,107 +89,29 @@ async def extract_file_content(extractor, file: UploadFile) -> str:
 
 
 def ensure_collection_exists(collection_name: str):
+    """Ensure Qdrant collection exists using the manager"""
     try:
-        if not collection_exists(collection_name):
-            create_collection(collection_name)
-            logger.info(f"Qdrant collection created: {collection_name}")
+        if not qdrant_manager.collection_exists(collection_name):
+            qdrant_manager.create_collection(collection_name)
+            logger.info(
+                "Created new Qdrant collection", collection_name=collection_name
+            )
         else:
             logger.info(
-                "Qdrant collection already exists", collection_name=collection_name
+                "Using existing Qdrant collection", collection_name=collection_name
             )
     except Exception as e:
-        logger.error(
-            "Error checking/creating Qdrant collection",
-            error=str(e),
-            collection_name=collection_name,
-        )
+        logger.error("Error with Qdrant collection", error=str(e))
         raise HTTPException(status_code=500, detail="Error with Qdrant collection")
 
 
-async def generate_embeddings(chunks: List[str]) -> List[List[float]]:
-    try:
-        embeddings = await get_embeddings(chunks)
-        logger.info("Embeddings generated", embedding_count=len(embeddings))
-        return embeddings
-    except Exception as e:
-        logger.error("Error generating embeddings", error=str(e))
-        raise HTTPException(status_code=500, detail="Error generating embeddings")
-
-
-def insert_chunks_into_qdrant(
-    collection_name: str, chunks: List[str], embeddings: List[List[float]]
-):
-    try:
-        insert_chunks(collection_name, chunks, embeddings)
-        logger.info(
-            "Chunks inserted into Qdrant",
-            collection_name=collection_name,
-            chunk_count=len(chunks),
-        )
-    except Exception as e:
-        logger.error(
-            "Error inserting chunks into Qdrant",
-            error=str(e),
-            collection_name=collection_name,
-        )
-        raise HTTPException(
-            status_code=500, detail="Error inserting chunks into Qdrant"
-        )
-
-
-def create_basic_chunks(text: str) -> List[str]:
-    """
-    Fallback chunking method using RecursiveCharacterTextSplitter
-    """
-    try:
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000,
-            chunk_overlap=100,
-            length_function=len,
-            separators=["\n\n", "\n", " ", ""],
-        )
-
-        chunks = text_splitter.split_text(text)
-
-        # Format chunks with basic metadata
-        formatted_chunks = [
-            f"{chunk}\n\nMetadata:\nSummary: Auto-generated chunk\nTags: automatic_split\nDocument Metadata: basic_split"
-            for chunk in chunks
-        ]
-
-        logger.info(f"Created {len(formatted_chunks)} chunks using basic text splitter")
-        return formatted_chunks
-
-    except Exception as e:
-        logger.error(f"Error in basic chunking: {str(e)}")
-        raise
-
-
-async def get_embeddings(chunks: List[str]) -> List[List[float]]:
-    client = await get_openai_client()
-    logger.info("Starting embedding generation", chunk_count=len(chunks))
-
-    embeddings = []
-    try:
-        for chunk in chunks:
-            response = await client.embeddings.create(
-                model="text-embedding-3-small", input=chunk
-            )
-            embeddings.append(response.data[0].embedding)
-        logger.info("Embedding generation completed", embedding_count=len(embeddings))
-        return embeddings
-    except Exception as e:
-        logger.error("Error generating embeddings", error=str(e))
-        raise
-
-
-async def semantic_chunking(text: str) -> List[str]:
+async def semantic_chunking(text: str) -> List[Chunk]:
+    """Create semantic chunks from text"""
     try:
         encoder = await get_openai_encoder()
-        chunker = StatisticalChunker(encoder=encoder, max_split_tokens=300)
+        chunker = StatisticalChunker(encoder=encoder, max_split_tokens=200)
         chunks = await chunker.acall(docs=[text])
-        paragraphs = [" ".join(chunk.splits) for chunk in chunks[0]]
-        return paragraphs
+        return [Chunk(text=" ".join(chunk.splits)) for chunk in chunks[0]]
     except Exception as e:
         logger.error("Error during semantic chunking", error=str(e))
         raise
