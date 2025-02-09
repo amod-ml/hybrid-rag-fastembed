@@ -113,15 +113,15 @@ class ConversationManager:
         """
         if conversation_id not in self.conversations:
             return False
-        
+
         current_time = time.time()
         last_active = self.conversations[conversation_id]["last_active"]
-        
+
         # If conversation has been inactive for more than timeout, mark as inactive
         if current_time - last_active > self.timeout:
             self.active_conversations.discard(conversation_id)
             return False
-            
+
         return conversation_id in self.active_conversations
 
     def clear_inactive_conversations(self) -> None:
@@ -134,10 +134,12 @@ class ConversationManager:
         inactive_conversations = [
             cid
             for cid, data in self.conversations.items()
-            if (current_time - data["last_active"] > self.timeout and 
-                cid not in self.active_conversations)
+            if (
+                current_time - data["last_active"] > self.timeout
+                and cid not in self.active_conversations
+            )
         ]
-        
+
         for cid in inactive_conversations:
             del self.conversations[cid]
             self.active_conversations.discard(cid)
